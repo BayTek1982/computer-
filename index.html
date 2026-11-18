@@ -18,14 +18,14 @@
 <style>
 :root{
   --bg:#05080d; --panel:#0b1118; --card:#0f1620; --card2:#0a0f15; --line:#1b2532; --line2:#2a3647; --line3:#36465b; --text:#dfe6ef; --soft:#b9c4d2; --soft2:#c9d2de; --mute:#7f8b9c;
-  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43; --aqua:#22d3ee; --pink:#ff6fae; --lime:#a3e635;
+  --up:#1fcf8f; --down:#f0605d; --gold:#f5c542; --blue:#4c9aff; --purple:#b388ff; --orange:#ff9f43; --aqua:#22d3ee; --pink:#ff6fae; --lime:#a3e635; --sky:#38bdf8;
   --chart:#020407; --hdr:rgba(5,8,13,.92); --veil:rgba(5,8,13,.75); --on-gold:#1b1505; --on-up:#03140d;
   --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
   --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
 }
 [data-theme="light"]{
   --bg:#f3f5f9; --panel:#eef2f7; --card:#ffffff; --card2:#f7f9fc; --line:#dde3ec; --line2:#c9d2de; --line3:#b7c2d1; --text:#131a26; --soft:#3d4757; --soft2:#2c3646; --mute:#5d6879;
-  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000; --aqua:#00838f; --pink:#c2185b; --lime:#4d7c0f;
+  --up:#087f5b; --down:#c62f2c; --gold:#946200; --blue:#1a66c9; --purple:#7445cc; --orange:#b45000; --aqua:#00838f; --pink:#c2185b; --lime:#4d7c0f; --sky:#0369a1;
   --chart:#ffffff; --hdr:rgba(243,245,249,.92); --veil:rgba(255,255,255,.85); --on-gold:#ffffff; --on-up:#ffffff;
 }
 *{box-sizing:border-box}
@@ -162,11 +162,11 @@ const THEMES={
  dark:{bg:'#020407',grid:'#111a24',axis:'#6f7b8c',text:'#e6ecf3',mute:'#7f8b9c',line:'#1b2532',line2:'#2a3647',
   up:'#1fcf8f',down:'#f0605d',gold:'#f5c542',blue:'#4c9aff',purple:'#b388ff',orange:'#ff9f43',aqua:'#22d3ee',pink:'#ff6fae',lime:'#a3e635',
   pillBg:'rgba(2,4,7,.9)',metal:'#9aa7b8',metal2:'#6b7889',metal3:'#4a5565',metalHi:'#d5dde8',block:'#121a24',blockLine:'#3a4859',head:'#18222e',
-  hot:'#f0605d',cold:'#4c9aff',feat:'#2a1d05',steel:'#c3ccd8'},
+  hot:'#f0605d',cold:'#4c9aff',feat:'#2a1d05',steel:'#c3ccd8',sky:'#38bdf8'},
  light:{bg:'#ffffff',grid:'#eef1f5',axis:'#5d6879',text:'#131a26',mute:'#5d6879',line:'#dde3ec',line2:'#c9d2de',
   up:'#087f5b',down:'#c62f2c',gold:'#946200',blue:'#1a66c9',purple:'#7445cc',orange:'#b45000',aqua:'#00838f',pink:'#c2185b',lime:'#4d7c0f',
   pillBg:'rgba(255,255,255,.95)',metal:'#8793a3',metal2:'#5f6b7b',metal3:'#465160',metalHi:'#c4ccd7',block:'#eef2f7',blockLine:'#8a96a8',head:'#e2e8f0',
-  hot:'#c62f2c',cold:'#1a66c9',feat:'#ffffff',steel:'#4a5565'}};
+  hot:'#c62f2c',cold:'#1a66c9',feat:'#ffffff',steel:'#4a5565',sky:'#0369a1'}};
 const C=Object.assign({},THEMES.dark);
 function setCanvasTheme(t){Object.assign(C,THEMES[t]||THEMES.dark);}
 const MONO="'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace";
@@ -798,6 +798,462 @@ les({id:'wlan',cat:'netz',title:'WLAN & Router',sub:'Daten durch die Luft',
  erkennen:['<b>2,4 GHz:</b> größere Reichweite, langsamer','<b>5 GHz / 6 GHz:</b> schneller, kürzere Reichweite','Standards: Wi-Fi 5, Wi-Fi 6, Wi-Fi 7','LAN-Kabel: am stabilsten und schnellsten'],
  bedeutung:'Beton, Fußbodenheizung, Spiegel und Aquarien schlucken Funkwellen besonders stark. Darum ist der Standort des Routers so wichtig.',
  tipp:'Für den PC, den Fernseher oder die Spielekonsole lohnt sich ein LAN-Kabel. Das spart WLAN-Kapazität für die Handys.'}});
+/* ================= PAKET 2: SICHERHEIT ================= */
+CATS.sicherheit='Sicherheit';CATS.geraete='Geräte & Anschlüsse';CATS.cloud='Internet & Cloud';CATS.code='Programmieren & KI';
+function bug(g,x,y,r,col){for(let k=-1;k<=1;k++)line(g,x-r*1.4,y+k*r*.6,x+r*1.4,y+k*r*.6,col,1.4);g.beginPath();g.ellipse(x,y,r*.75,r,0,0,TAU);g.fillStyle=hexA(col,.85);g.fill();circ(g,x,y-r*1.15,r*.45,col);line(g,x-r*.2,y-r*1.5,x-r*.6,y-r*2,col,1.2);line(g,x+r*.2,y-r*1.5,x+r*.6,y-r*2,col,1.2);}
+function lock(g,x,y,s,col,open){g.save();g.strokeStyle=col;g.lineWidth=Math.max(1.6,s*.22);g.beginPath();g.arc(x+(open?s*.55:0),y-s*.15,s*.55,Math.PI,0);if(!open){}g.stroke();g.restore();box(g,x-s*.85,y-s*.2,s*1.7,s*1.3,hexA(col,.25),col,s*.2,1.6);circ(g,x,y+s*.4,s*.16,col);}
+function shield(g,cx,cy,r,col,a=1){if(a<=0)return;g.save();g.globalAlpha*=a;poly(g,[[cx,cy-r],[cx+r*.85,cy-r*.62],[cx+r*.78,cy+r*.25],[cx,cy+r],[cx-r*.78,cy+r*.25],[cx-r*.85,cy-r*.62]],hexA(col,.2),col,2.2);g.restore();}
+function miniFile(g,x,y,col,fill){poly(g,[[x-8,y-11],[x+4,y-11],[x+8,y-7],[x+8,y+11],[x-8,y+11]],fill||hexA(col,.15),col,1.3);}
+function phone(g,x,y,w,h,col){box(g,x,y,w,h,C.block,col,Math.min(8,w*.2),1.8);box(g,x+w/2-6,y+4,12,3,col,null,2);}
+function house(g,x,y,w,h,col){poly(g,[[x-8,y],[x+w/2,y-h*.35],[x+w+8,y]],hexA(col,.12),col,1.6);box(g,x,y,w,h,C.block,col,2,1.6);}
+
+les({id:'viren',cat:'sicherheit',title:'Viren & Schadsoftware',sub:'Wie Schädlinge in den PC kommen',
+ steps:S([[5000,'Schadsoftware (Malware) ist ein Programm, das Schaden anrichten will: Daten stehlen, dich ausspionieren oder erpressen.'],
+ [5200,'Sie kommt meist über gefährliche E-Mail-Anhänge, gefälschte Downloads oder alte, nicht aktualisierte Programme.'],
+ [5600,'Ein Virus hängt sich an andere Dateien. Ein Wurm verbreitet sich selbst übers Netzwerk. Ein Trojaner tarnt sich als nützliches Programm.'],
+ [5600,'Besonders gefährlich ist Ransomware: Sie verschlüsselt alle deine Dateien und verlangt Lösegeld.'],
+ [5400,'Der Virenschutz (z. B. Microsoft Defender) prüft Dateien und schlägt Alarm. Er ersetzt aber nicht dein gesundes Misstrauen.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===2){[['VIRUS','hängt an Dateien',C.down],['WURM','verbreitet sich',C.orange],['TROJANER','tarnt sich',C.purple]].forEach(([n,d,c],i)=>{const x=20+i*125,a=clamp(p*3-i*.4);if(a<=0)return;g.save();g.globalAlpha*=a;box(g,x,44,110,140,hexA(c,.1),c,10,1.6);
+    if(i===0){miniFile(g,x+55,96,C.text);bug(g,x+66,104,7,c);}if(i===1){[[x+30,92],[x+80,92],[x+55,124]].forEach(q=>{box(g,q[0]-14,q[1]-10,28,20,C.block,C.line2,3,1.2);bug(g,q[0],q[1],5,c);});}
+    if(i===2){box(g,x+33,82,44,36,hexA(C.gold,.25),C.gold,3,1.4);line(g,x+55,82,x+55,118,C.gold,3);line(g,x+33,98,x+77,98,C.gold,3);bug(g,x+55,100,5,c);}
+    txt(g,x+55,150,n,c,11,'center',800);tA(g,1,x+55,168,d,C.mute,9,'center',600);g.restore();});
+   pill(g,200,222,'DREI ARTEN VON SCHÄDLINGEN',C.text,1);return;}
+  monitor(g,150,60,110,80,C.blue);
+  if(s===3){for(let i=0;i<8;i++){const x=40+(i%4)*24,y=176+Math.floor(i/4)*30,f=clamp(p*3-i*.2);if(f>.5)lock(g,x,y,8,C.down);else miniFile(g,x,y,C.text);}
+   for(let i=0;i<8;i++){const x=290+(i%4)*24,y=176+Math.floor(i/4)*30,f=clamp(p*3-(i+8)*.12);if(f>.5)lock(g,x,y,8,C.down);else miniFile(g,x,y,C.text);}
+   g.save();g.fillStyle=hexA(C.down,.25+.15*Math.sin(t*.01));g.fillRect(156,66,98,68);g.restore();lock(g,205,104,14,C.down);pill(g,205,34,'ZAHLE 500 € – SONST SIND DEINE FOTOS WEG!',C.down,1);return;}
+  if(s===4){const f=(t*.0008)%1;const bx=lerp(20,128,ease(clamp(f*1.6)));bug(g,f<.6?bx:lerp(128,40,(f-.6)/.4),100,8,C.down);shield(g,138,100,30,C.up);txt(g,138,102,'✓',C.up,18);pill(g,205,200,'VIRENSCHUTZ + GESUNDES MISSTRAUEN',C.up,1);return;}
+  if(s===1){[['E-MAIL-ANHANG',56],['FALSCHER DOWNLOAD',100],['ALTE SOFTWARE',144]].forEach(([l,y],i)=>{const a=clamp(p*3-i*.4);if(a<=0)return;g.save();g.globalAlpha*=a;box(g,10,y-14,120,28,hexA(C.down,.1),C.down,6,1.4);txt(g,70,y,l,C.down,8.5);g.restore();arrow(g,132,y,148,100,C.down,1.4,a);});
+   const f=(t*.0006)%1;bug(g,lerp(132,200,f),lerp(56,100,f),6,C.down);}
+  if(s===0){const f=(Math.sin(t*.002)+1)/2;bug(g,lerp(60,120,f),100,9,C.down);}
+  pill(g,205,200,s===0?'MALWARE = SCHAD-PROGRAMM':'DIE HÄUFIGSTEN EINGANGSTORE',C.down,1);}
+ ,box:{was:'Schadsoftware (Malware) ist der Oberbegriff für Programme mit böser Absicht: Viren, Würmer, Trojaner, Spyware und Ransomware.',h2:'So erkennst du es',
+ erkennen:['Unerwartete Anhänge: .exe, .zip, Office-Dateien mit Makros','PC plötzlich sehr langsam, seltsame Pop-ups','Dateien lassen sich nicht mehr öffnen (Ransomware)','Programme starten, die du nie installiert hast'],
+ bedeutung:'Die meisten Angriffe brauchen deine Mithilfe – einen Klick auf den falschen Anhang. Vorsicht ist der beste Schutz.',
+ tipp:'Software nur von der offiziellen Herstellerseite oder aus dem App-Store laden. Und: Bei Ransomware nie zahlen – ein Backup ist die beste Rettung.'}});
+
+les({id:'phishing',cat:'sicherheit',title:'Phishing erkennen',sub:'Gefälschte Mails und Webseiten',
+ steps:S([[5000,'Beim Phishing („Fischen“) versuchen Betrüger, an deine Passwörter oder Bankdaten zu kommen.'],
+ [5400,'Typisch ist eine E-Mail, die aussieht wie von deiner Bank oder einem Paketdienst: „Ihr Konto wird gesperrt – sofort handeln!“'],
+ [5600,'Achte auf den Absender: Steht da wirklich die echte Adresse der Bank – oder etwas Ähnliches wie meine-bank-sicherheit.com?'],
+ [5600,'Halte den Finger lange auf den Link oder fahre mit der Maus darüber, ohne zu klicken: Wohin führt er wirklich?'],
+ [5400,'Im Zweifel: Nie über den Link anmelden, sondern die Adresse selbst eintippen oder bei der Bank anrufen.']]),
+ draw(g,st){const{s,p,t}=st;
+  box(g,30,28,340,176,C.block,C.line2,10,1.4);line(g,30,84,370,84,C.line2,1);
+  txt(g,44,44,'VON:',C.mute,9,'left');txt(g,80,44,'Meine Bank <service@meine-bank-sicherheit.com>',C.text,9,'left',600);
+  txt(g,44,64,'BETREFF:',C.mute,9,'left');txt(g,104,64,'⚠ Ihr Konto wird gesperrt!',C.text,10,'left',700,SANS);
+  ['Sehr geehrter Kunde,','wir haben ungewöhnliche Aktivitäten festgestellt.','Bestätigen Sie Ihre Daten innerhalb von 24 Stunden.'].forEach((l,i)=>txt(g,44,102+i*16,l,C.mute,10,'left',500,SANS));
+  box(g,130,158,140,28,C.blue,null,6);txt(g,200,172,'JETZT BESTÄTIGEN',C.bg,10,'center',800);
+  if(s===1){g.save();g.globalAlpha=.6+.4*Math.sin(t*.01);box(g,98,54,190,20,null,C.orange,4,2);box(g,40,124,326,16,null,C.orange,4,2);g.restore();pill(g,200,228,'DRUCK & ANGST: „SOFORT HANDELN!“',C.orange,1);}
+  if(s===2){box(g,76,35,290,18,null,C.down,4,2);pill(g,200,228,'FALSCHER ABSENDER – NICHT DIE ECHTE BANK!',C.down,1);}
+  if(s===3){const cx=220,cy=176;poly(g,[[cx,cy],[cx,cy+16],[cx+4,cy+12],[cx+8,cy+19],[cx+11,cy+17],[cx+7,cy+11],[cx+12,cy+11]],C.text,C.bg,1.2);pill(g,200,226,'LINK: http://meine-bank.login-check.xyz',C.down,1);}
+  if(s===0){const y=lerp(0,24,(Math.sin(t*.004)+1)/2);line(g,350,0,350,y+6,C.mute,1.4);g.save();g.strokeStyle=C.gold;g.lineWidth=2;g.beginPath();g.arc(344,y+8,6,0,Math.PI);g.stroke();g.restore();pill(g,200,228,'PHISHING = NACH PASSWÖRTERN ANGELN',C.text,1);}
+  if(s===4){g.save();g.fillStyle=hexA(C.bg,.7);g.fillRect(30,28,340,176);g.restore();pill(g,200,96,'✗ NICHT AUF DEN LINK KLICKEN',C.down,1,'center',12);pill(g,200,130,'✓ ADRESSE SELBST EINTIPPEN',C.up,1,'center',12);pill(g,200,164,'✓ IM ZWEIFEL ANRUFEN',C.up,1,'center',12);}}
+ ,box:{was:'Phishing sind gefälschte Nachrichten oder Webseiten, die dich dazu bringen sollen, Passwörter, PINs oder Kartendaten preiszugeben.',h2:'So erkennst du es',
+ erkennen:['Zeitdruck und Drohungen („Konto wird gesperrt“)','Absenderadresse passt nicht zur echten Firma','Link führt auf eine fremde, seltsame Adresse','Unpersönliche Anrede, Rechtschreibfehler, Anhänge'],
+ bedeutung:'Banken und seriöse Firmen fragen nie per E-Mail oder SMS nach Passwort, PIN oder TAN. Wer das verlangt, ist ein Betrüger.',
+ tipp:'Phishing gibt es auch per SMS („Ihr Paket wartet“) und per Telefon. Die Regel ist immer gleich: nichts über fremde Links eingeben.'}});
+
+les({id:'passwort',cat:'sicherheit',title:'Sichere Passwörter',sub:'Lang schlägt kompliziert',
+ steps:S([[5000,'Ein Passwort schützt deine Konten. Kurze Passwörter knackt ein Computer durch einfaches Ausprobieren in Sekunden.'],
+ [5400,'Jedes zusätzliche Zeichen vervielfacht die Möglichkeiten. Darum ist die Länge wichtiger als komplizierte Sonderzeichen.'],
+ [5600,'Gut zu merken und sehr sicher: mehrere zufällige Wörter hintereinander, z. B. „Tasse-Wolke-Fahrrad-Kompass“.'],
+ [5400,'Für jedes Konto ein eigenes Passwort! Ein Passwort-Manager merkt sie sich für dich.'],
+ [5600,'Zwei-Faktor-Anmeldung (2FA): Zusätzlich zum Passwort brauchst du einen Code vom Handy. Ohne dein Handy kommt der Dieb nicht rein.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===0){box(g,90,70,220,40,C.block,C.line2,8,1.4);const al='abcdefghijklmnopqrstuvwxyz';const k=Math.floor(t*.03);const guess=p>.6?'hallo':[0,1,2,3,4].map(i=>al[(k*(i+3)+i*7)%26]).join('');txt(g,200,90,guess,p>.6?C.down:C.mute,18,'center',700);
+   pill(g,200,140,p>.6?'GEKNACKT IN: SOFORT':`VERSUCH ${deN(k*997)}`,p>.6?C.down:C.text,1,'center',12);pill(g,200,220,'5 KLEINBUCHSTABEN = 11,9 MIO. MÖGLICHKEITEN',C.text,1);return;}
+  if(s===1){[['hallo','SOFORT',.06,C.down],['Hallo123','STUNDEN',.35,C.orange],['Tasse-Wolke-Fahrrad-Kompass','JAHRTAUSENDE',1,C.up]].forEach(([pw,l,w,c],i)=>{const y=56+i*56;txt(g,30,y,pw,C.text,10.5,'left',700);box(g,30,y+12,340,12,C.line,null,4);box(g,30,y+12,340*w*ease(clamp(p*1.5)),12,c,null,4);txt(g,370,y,l,c,9,'right',800);});
+   pill(g,200,228,'LÄNGE ZÄHLT AM MEISTEN',C.gold,1);return;}
+  if(s===2){[['Tasse',C.blue],['Wolke',C.purple],['Fahrrad',C.orange],['Kompass',C.up]].forEach(([w,c],i)=>{const a=clamp(p*3-i*.35);if(a<=0)return;g.save();g.globalAlpha*=a;box(g,22+i*92,90,84,40,hexA(c,.2),c,8,1.6);txt(g,64+i*92,110,w,c,12,'center',700,SANS);g.restore();});
+   pill(g,200,170,'4 ZUFÄLLIGE WÖRTER = 27 ZEICHEN',C.text,1);pill(g,200,206,'LEICHT ZU MERKEN · SCHWER ZU KNACKEN',C.up,1);return;}
+  if(s===3){box(g,165,90,70,70,C.block,C.gold,10,2);circ(g,200,125,16,null,C.gold,2.4);line(g,200,125,210,118,C.gold,2.4);
+   [['MAIL',60,50],['BANK',340,50],['SHOP',60,200],['SPIELE',340,200]].forEach(([n,x,y],i)=>{const a=clamp(p*3-i*.3);line(g,200,125,x,y,hexA(C.gold,.5),1.4,[4,4]);box(g,x-34,y-16,68,32,C.block,C.blue,6,1.4);txt(g,x,y-5,n,C.blue,9);tA(g,a,x,y+8,'••••••••',C.mute,9,'center',800);});
+   pill(g,200,22,'PASSWORT-MANAGER',C.gold,1);return;}
+  box(g,40,80,150,70,C.block,C.line2,8,1.4);txt(g,115,100,'PASSWORT ✓',C.up,10);box(g,56,114,118,22,C.bg,C.line2,4,1);txt(g,115,125,p>.5?'4 8 3 9 2 1':'_ _ _ _ _ _',C.text,10);
+  phone(g,270,56,60,110,C.purple);txt(g,300,100,'CODE',C.mute,8.5);txt(g,300,118,'483 921',C.purple,11,'center',800);
+  arrow(g,264,112,196,124,C.purple,1.8,clamp(p*2));pill(g,200,210,'2FA: PASSWORT + HANDY',C.purple,1);}
+ ,box:{was:'Ein sicheres Passwort ist lang, einzigartig und nicht zu erraten. Zwei-Faktor-Anmeldung macht ein geklautes Passwort fast wertlos.',h2:'So geht’s',
+ erkennen:['Mindestens 12–16 Zeichen, besser ein Satz aus Wörtern','Für jedes Konto ein anderes Passwort','Passwort-Manager (z. B. im Browser oder Bitwarden)','2FA überall einschalten, wo es geht'],
+ bedeutung:'Wird ein Shop gehackt, probieren Betrüger die gestohlenen Passwörter automatisch bei Mail, Bank und Co. aus. Ein eigenes Passwort pro Konto stoppt das.',
+ tipp:'Auf haveibeenpwned.com kannst du prüfen, ob deine E-Mail-Adresse schon in einem Datenleck aufgetaucht ist.'}});
+
+les({id:'backup',cat:'sicherheit',title:'Backup: Daten sichern',sub:'Die 3-2-1-Regel',
+ steps:S([[5000,'Festplatten gehen kaputt, Handys werden gestohlen, Ransomware sperrt Dateien. Ohne Sicherung sind deine Fotos dann für immer weg.'],
+ [5200,'Die 3-2-1-Regel: 3 Kopien deiner Daten – das Original plus zwei Sicherungen.'],
+ [5200,'Auf 2 verschiedenen Speichermedien, z. B. die SSD im PC und eine externe Festplatte.'],
+ [5400,'1 Kopie außer Haus: in der Cloud oder bei Verwandten. So überleben die Daten auch Brand oder Einbruch.'],
+ [5400,'Wichtig: Backups regelmäßig und automatisch machen – und ab und zu testen, ob sich die Daten wirklich wiederherstellen lassen.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===0){tower(g,172,60,56,96,C.blue);const a=clamp(p*2-.4);for(let i=0;i<3;i++)miniFile(g,130+i*70,190,C.text);if(a>0){line(g,160,50,240,170,C.down,4*a);line(g,240,50,160,170,C.down,4*a);pill(g,200,224,'SSD DEFEKT – ALLES WEG?',C.down,a);}return;}
+  const cols=[[70,'ORIGINAL',C.blue],[200,'EXTERNE PLATTE',C.orange],[330,'CLOUD',C.aqua]];
+  if(s>=3){const a=ap(st,3);g.save();g.globalAlpha*=a;house(g,14,96,250,110,C.line2);g.restore();tA(g,a,139,222,'ZU HAUSE',C.mute,9,'center',700);tA(g,a,330,222,'AUSSER HAUS',C.aqua,9,'center',800);}
+  cols.forEach(([x,l,c],i)=>{if(i===0)tower(g,x-24,110,48,80,c);if(i===1){box(g,x-30,130,60,46,C.block,c,8,1.8);circ(g,x+20,166,3,C.up);}if(i===2)cloud(g,x,150,c,'');
+   miniFile(g,x,i===2?150:i===1?153:150,C.text,hexA(C.gold,.5));tA(g,1,x,i===2?188:204,l,c,8.5,'center',800);});
+  const big=['','3','2','1',''][s];if(big){txt(g,200,40,big,C.gold,34,'center',800);}
+  if(s===1)pill(g,200,78,'3 KOPIEN',C.gold,1);if(s===2)pill(g,200,78,'2 VERSCHIEDENE MEDIEN',C.gold,1);if(s===3)pill(g,200,78,'1 KOPIE AUSSER HAUS',C.gold,1);
+  if(s===4){g.save();g.strokeStyle=C.up;g.lineWidth=3;g.beginPath();g.arc(200,46,20,t*.004,t*.004+4.6);g.stroke();g.restore();pill(g,200,82,'AUTOMATISCH · REGELMÄSSIG · TESTEN',C.up,1);}}
+ ,box:{was:'Ein Backup ist eine Sicherheitskopie deiner Daten. Die 3-2-1-Regel sorgt dafür, dass fast nichts sie komplett vernichten kann.',h2:'So geht’s',
+ erkennen:['3 Kopien: Original + 2 Sicherungen','2 Medien: z. B. interne SSD + externe Festplatte','1 Kopie außer Haus: Cloud oder bei Verwandten','Windows: „Dateiversionsverlauf“, Mac: „Time Machine“'],
+ bedeutung:'Eine externe Festplatte, die immer angesteckt bleibt, kann Ransomware mit verschlüsseln. Darum nach dem Backup abstecken.',
+ tipp:'Familienfotos sind unersetzlich. Ein jährlicher „Backup-Tag“ (z. B. an Silvester) hilft, es nicht zu vergessen.'}});
+
+les({id:'verschluesselung',cat:'sicherheit',title:'Verschlüsselung',sub:'Geheimschrift für Daten',
+ steps:S([[5000,'Verschlüsselung macht Daten für Fremde unlesbar. Nur wer den richtigen Schlüssel hat, kann sie wieder lesen.'],
+ [5400,'Ganz einfaches Beispiel (Caesar-Code): Jeder Buchstabe wird um 3 Stellen verschoben – aus HALLO wird KDOOR.'],
+ [5600,'Moderne Verfahren wie AES nutzen Schlüssel mit 256 Bit. Das sind so viele Möglichkeiten, dass kein Computer der Welt sie alle durchprobieren kann.'],
+ [5800,'Beim Public-Key-Verfahren gibt es zwei Schlüssel: Mit dem öffentlichen „Vorhängeschloss“ kann jeder abschließen, aber nur dein privater Schlüssel schließt wieder auf.'],
+ [5200,'Du nutzt das jeden Tag: HTTPS im Browser, Messenger-Nachrichten, Online-Banking und das verschlüsselte Handy.']]),
+ draw(g,st){const{s,p,t}=st;
+  const tiles=(x0,y,arr,col,a=1)=>arr.forEach((c,i)=>{const x=x0+i*30;g.save();g.globalAlpha*=a;box(g,x-12,y-14,24,28,C.block,col,5,1.4);txt(g,x,y+1,c,col,13,'center',800);g.restore();});
+  if(s===0){tiles(36,110,['H','A','L','L','O'],C.up);lock(g,200,112,16,C.gold);arrow(g,168,110,180,110,C.mute,1.6);arrow(g,220,110,240,110,C.mute,1.6);tiles(260,110,['?','#','&','%','!'],C.down);pill(g,200,190,'NUR MIT SCHLÜSSEL LESBAR',C.gold,1);return;}
+  if(s===1){const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ';for(let i=0;i<13;i++){const x=26+i*27;txt(g,x,46,A[i],C.mute,11);txt(g,x,78,A[(i+3)%26]||'',C.gold,11);arrow(g,x,54,x,68,hexA(C.gold,.6),1,1);}
+   pill(g,200,104,'+3 STELLEN',C.gold,1);tiles(60,160,['H','A','L','L','O'],C.up);arrow(g,206,160,226,160,C.mute,1.6);tiles(250,160,['K','D','O','O','R'],C.down,clamp(p*2));return;}
+  if(s===2){for(let i=0;i<16;i++)for(let j=0;j<16;j++){const on=Math.sin(i*12.9898+j*78.233)*43758.5453%1;g.fillStyle=Math.abs(on)>.5?hexA(C.gold,.8):hexA(C.gold,.15);g.fillRect(40+i*9,40+j*9,7,7);}
+   txt(g,112,196,'256-BIT-SCHLÜSSEL',C.gold,9);pill(g,290,90,'2²⁵⁶ MÖGLICHKEITEN',C.gold,1);pill(g,290,124,'≈ 1,16 × 10⁷⁷',C.text,1);pill(g,290,158,'UNKNACKBAR',C.up,1);return;}
+  if(s===3){const f=ease(clamp(p*1.4));circ(g,50,90,16,hexA(C.blue,.25),C.blue,1.6);tA(g,1,50,124,'ANNA',C.blue,9,'center',800);circ(g,350,90,16,hexA(C.purple,.25),C.purple,1.6);tA(g,1,350,124,'DU',C.purple,9,'center',800);
+   const x=lerp(80,300,f);box(g,x-20,150,40,30,hexA(C.gold,.2),C.gold,4,1.4);lock(g,x,148,10,C.up,f>.98);
+   pill(g,120,40,'ÖFFENTLICHES SCHLOSS',C.up,1);pill(g,300,40,'PRIVATER SCHLÜSSEL',C.purple,1);pill(g,200,222,'NUR DU KANNST ES ÖFFNEN',C.text,1);return;}
+  [['HTTPS 🔒',60],['MESSENGER',120],['ONLINE-BANKING',180]].forEach(([l,y],i)=>pill(g,130,y,l,C.up,clamp(p*3-i*.3),'center',12));lock(g,300,110,30,C.up);pill(g,200,222,'VERSCHLÜSSELUNG IM ALLTAG',C.text,1);}
+ ,box:{was:'Verschlüsselung wandelt lesbare Daten (Klartext) mit einem Schlüssel in unlesbaren Geheimtext um – und mit dem richtigen Schlüssel wieder zurück.',h2:'So funktioniert’s',
+ erkennen:['<b>Symmetrisch (AES):</b> ein Schlüssel zum Ab- und Aufschließen','<b>Public Key (RSA, ECC):</b> öffentlicher + privater Schlüssel','<b>Ende-zu-Ende:</b> nur Absender und Empfänger können lesen','Schloss-Symbol im Browser = HTTPS'],
+ bedeutung:'Ohne Verschlüsselung könnte jeder im selben WLAN deine Passwörter und Nachrichten mitlesen.',
+ tipp:'Laptop und Handy sollten verschlüsselt sein (Windows: BitLocker bzw. Geräteverschlüsselung, Handy: Sperrcode). Dann sind die Daten bei Diebstahl geschützt.'}});
+
+les({id:'updates',cat:'sicherheit',title:'Updates',sub:'Warum Aktualisieren schützt',
+ steps:S([[5000,'Jede Software hat Fehler. Manche davon sind Sicherheitslücken – wie ein offenes Fenster in einem Haus.'],
+ [5200,'Angreifer suchen gezielt nach solchen Lücken und bauen Programme, die sie automatisch ausnutzen.'],
+ [5000,'Ein Update schließt die Lücke – das Fenster wird zugemacht.'],
+ [5400,'Darum: Updates für Betriebssystem, Browser und Apps möglichst automatisch installieren lassen.'],
+ [5600,'Achtung bei alten Geräten: Bekommt ein Handy oder PC keine Updates mehr, bleiben neue Lücken für immer offen.']]),
+ draw(g,st){const{s,p,t}=st;
+  house(g,90,100,220,120,C.blue);box(g,180,160,40,60,C.head,C.blue,3,1.4);
+  const W=[[110,120],[250,120],[110,170],[250,170]];
+  W.forEach(([x,y],i)=>{let open=false;if(s<=1&&i===1)open=true;if(s===2&&i===1)open=p<.4;if(s===4)open=clamp(p*3-i*.3)>.5;
+   box(g,x,y,40,32,open?hexA(C.down,.35):hexA(C.blue,.2),open?C.down:C.blue,3,1.6);if(!open){line(g,x+20,y,x+20,y+32,C.blue,1.2);line(g,x,y+16,x+40,y+16,C.blue,1.2);}});
+  if(s===0)tag(g,270,136,350,70,'SICHERHEITSLÜCKE',C.down,1);
+  if(s===1){const f=(t*.0007)%1;bug(g,lerp(380,276,f),lerp(40,130,f),7,C.down);pill(g,90,40,'ANGREIFER SUCHEN LÜCKEN',C.down,1);}
+  if(s===2){pill(g,200,30,p<.4?'UPDATE WIRD INSTALLIERT …':'UPDATE INSTALLIERT ✓',p<.4?C.gold:C.up,1);if(p>=.4)txt(g,270,136,'✓',C.up,16);}
+  if(s===3){[['SYSTEM',90],['BROWSER',200],['APPS',310]].forEach(([l,x])=>pill(g,x,30,l+' ✓',C.up,1));pill(g,200,240,'AUTOMATISCHE UPDATES: AN',C.up,1);}
+  if(s===4)pill(g,200,30,'KEINE UPDATES MEHR → LÜCKEN BLEIBEN OFFEN',C.down,1);}
+ ,box:{was:'Updates sind Verbesserungen für Programme. Sicherheitsupdates schließen bekannt gewordene Lücken, bevor Angreifer sie ausnutzen.',h2:'So geht’s',
+ erkennen:['Windows: Einstellungen → Windows Update','Handy: Einstellungen → System/Software-Update','Browser aktualisieren sich meist selbst','Router (z. B. FRITZ!Box) nicht vergessen!'],
+ bedeutung:'Viele große Angriffe nutzten Lücken, für die es schon lange ein Update gab. Wer aktualisiert, ist gegen sie geschützt.',
+ tipp:'Beim Handykauf darauf achten, wie viele Jahre der Hersteller Updates verspricht. Gute Geräte bekommen heute 5–7 Jahre Updates.'}});
+/* ================= PAKET 3: GERÄTE & ANSCHLÜSSE ================= */
+function laptop(g,x,y,w,h,col){box(g,x+w*.08,y,w*.84,h*.72,C.block,col,5,1.8);box(g,x+w*.08+5,y+5,w*.84-10,h*.72-10,C.bg,null,3);poly(g,[[x+w*.04,y+h*.75],[x+w*.96,y+h*.75],[x+w,y+h],[x,y+h]],C.head,col,1.6);}
+les({id:'geraetetypen',cat:'geraete',title:'PC, Laptop, Tablet & Handy',sub:'Gleiche Technik, andere Bauform',
+ steps:S([[5000,'PC, Laptop, Tablet und Handy funktionieren alle nach dem gleichen Prinzip: Prozessor, Arbeitsspeicher, Speicher, Bildschirm.'],
+ [5200,'Der PC hat viel Platz und Strom aus der Steckdose: starke Bauteile, gute Kühlung und leicht aufrüstbar.'],
+ [5200,'Der Laptop packt alles in ein flaches Gehäuse mit Akku. Die Teile sind sparsamer und oft fest verlötet.'],
+ [5600,'Im Handy steckt fast alles auf einem einzigen Chip, dem SoC (System on a Chip): Prozessor, Grafik, KI-Einheit und Funk.'],
+ [5200,'Je kleiner das Gerät, desto wichtiger wird Stromsparen – und desto schwerer lässt es sich reparieren oder aufrüsten.']]),
+ draw(g,st){const{s,p}=st;
+  if(s===3){phone(g,60,40,90,170,C.lime);box(g,80,90,50,50,C.block,C.lime,4,1.6);txt(g,105,115,'SoC',C.lime,12,'center',800);arrow(g,154,115,196,115,C.mute,1.6);
+   [['CPU',C.orange],['GRAFIK',C.purple],['KI-EINHEIT',C.pink],['FUNK / 5G',C.aqua]].forEach(([l,c],i)=>{const a=clamp(p*3-i*.3);if(a<=0)return;g.save();g.globalAlpha*=a;box(g,206+(i%2)*92,62+Math.floor(i/2)*58,86,48,hexA(c,.15),c,6,1.4);txt(g,249+(i%2)*92,86+Math.floor(i/2)*58,l,c,9);g.restore();});
+   box(g,200,56,190,118,null,C.lime,8,1.2);pill(g,295,200,'ALLES AUF EINEM CHIP',C.lime,1);return;}
+  const hl=[-1,0,1,-1,-1][s];const D=[0,1,2,3];
+  D.forEach(i=>{const on=s===0||s===4||hl===i;g.save();g.globalAlpha*=on?1:.3;const c=C.lime;
+   if(i===0)tower(g,20,60,70,120,c);if(i===1)laptop(g,110,90,110,80,c);if(i===2){box(g,240,80,70,96,C.block,c,8,1.8);box(g,246,86,58,84,C.bg,null,4);}if(i===3)phone(g,330,100,44,80,c);g.restore();});
+  tA(g,1,55,196,'PC',C.lime,9,'center',800);tA(g,1,165,196,'LAPTOP',C.lime,9,'center',800);tA(g,1,275,196,'TABLET',C.lime,9,'center',800);tA(g,1,352,196,'HANDY',C.lime,9,'center',800);
+  if(s===0)pill(g,200,30,'GLEICHES PRINZIP – ANDERE GRÖSSE',C.text,1);
+  if(s===1){pill(g,120,30,'VIEL LEISTUNG',C.up,1);pill(g,270,30,'LEICHT AUFRÜSTBAR',C.up,1);}
+  if(s===2){pill(g,120,30,'MIT AKKU',C.up,1);pill(g,270,30,'TEILE OFT VERLÖTET',C.orange,1);}
+  if(s===4){arrow(g,40,226,360,226,C.gold,2,1,true);pill(g,90,226,'MEHR LEISTUNG',C.gold,1);pill(g,310,226,'SPARSAMER',C.gold,1);}}
+ ,box:{was:'Alle Computer – vom Gaming-PC bis zum Handy – bestehen aus denselben Grundbausteinen. Sie unterscheiden sich vor allem in Größe, Leistung und Stromverbrauch.',h2:'So erkennst du es',
+ erkennen:['<b>PC:</b> einzelne Bauteile, steckbar, aufrüstbar','<b>Laptop:</b> kompakt, Akku, oft verlötete Teile','<b>Tablet/Handy:</b> SoC – fast alles auf einem Chip','Leistung pro Watt ist bei Handychips sehr hoch'],
+ bedeutung:'Beim Laptopkauf genau hinschauen: Ist der Arbeitsspeicher verlötet, kann man ihn später nicht mehr aufrüsten – also gleich genug nehmen.',
+ tipp:'Moderne Handychips sind so stark, dass sie die PCs von vor zehn Jahren locker überholen – bei einem Bruchteil des Stromverbrauchs.'}});
+
+les({id:'laptopakku',cat:'geraete',title:'Der Akku in Laptop & Handy',sub:'Lithium-Ionen richtig behandeln',
+ steps:S([[5000,'Laptops und Handys haben einen Lithium-Ionen-Akku. Beim Laden wandern Lithium-Ionen auf die eine Seite, beim Benutzen wieder zurück.'],
+ [5200,'Die Kapazität wird in Wattstunden (Wh) oder Milliamperestunden (mAh) angegeben. Ein Laptop-Akku hat oft 50 bis 100 Wh.'],
+ [5600,'Mit jedem Ladezyklus altert der Akku etwas. Nach etwa 500 bis 1.000 vollen Zyklen hat er meist noch rund 80 % seiner Kapazität.'],
+ [5400,'Am wohlsten fühlt er sich zwischen 20 und 80 %. Dauerhaft 100 % und große Hitze lassen ihn schneller altern.'],
+ [5000,'Viele Geräte haben deshalb eine Ladebegrenzung oder „optimiertes Laden“ – einfach in den Einstellungen einschalten!']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===2){const x0=60,y0=200,w=310,h=150;line(g,x0,y0,x0+w,y0,C.axis,1.3);line(g,x0,y0,x0,y0-h,C.axis,1.3);
+   [[0,'0'],[.5,'500'],[1,'1.000']].forEach(([u,l])=>txt(g,x0+u*w,y0+10,l,C.mute,9,'center',600));[[1,'100 %'],[.6,'80 %']].forEach(([v,l])=>{const y=y0-((v===1?100:80)-50)/50*h;txt(g,x0-4,y,l,C.mute,9,'right',600);line(g,x0,y,x0+w,y,C.grid,1);});
+   g.save();g.strokeStyle=C.up;g.lineWidth=2.6;g.beginPath();const n=ease(p)*100;for(let i=0;i<=n;i++){const u=i/100,cap=100-20*u-3*Math.sin(u*3);const x=x0+u*w,y=y0-(cap-50)/50*h;i?g.lineTo(x,y):g.moveTo(x,y);}g.stroke();g.restore();
+   txt(g,x0+w,y0+22,'LADEZYKLEN',C.mute,9,'right',700);pill(g,250,40,'≈ 80 % NACH 500–1.000 ZYKLEN',C.up,1);return;}
+  if(s===4){box(g,110,80,180,60,C.block,C.line2,30,1.6);const on=p>.3;box(g,on?236:120,88,44,44,on?C.up:C.mute,null,22);txt(g,170,110,on?'AN':'AUS',on?C.up:C.mute,12,'center',800);pill(g,200,40,'AKKU SCHONEN / OPTIMIERTES LADEN',C.text,1);pill(g,200,180,'LÄDT NUR BIS 80 %',C.up,clamp(p*2-.6));return;}
+  const lvl=s===0?(Math.sin(t*.0015)+1)/2:s===1?.75:.62;box(g,70,70,250,100,C.block,C.line2,10,2);box(g,320,100,12,40,C.line2,null,3);
+  const fc=lvl<.2?C.down:lvl>.8?C.orange:C.up;box(g,78,78,234*lvl,84,hexA(fc,.4),null,6);
+  if(s===3){box(g,78+234*.2,74,234*.6,92,null,C.up,6,2.2);txt(g,78+234*.2,186,'20 %',C.up,9.5);txt(g,78+234*.8,186,'80 %',C.up,9.5);pill(g,200,40,'WOHLFÜHLBEREICH 20–80 %',C.up,1);pill(g,200,216,'100 % + HITZE = SCHNELLER ALT',C.down,1);return;}
+  if(s===0){for(let i=0;i<10;i++){const f=((t*.0004)+i/10)%1;const x=lerp(90,300,(Math.sin(t*.0015)+1)/2*.9+.05)+Math.sin(i*2.1)*14;circ(g,x,90+i*7,3,C.gold);}pill(g,200,40,'LITHIUM-IONEN WANDERN HIN UND HER',C.gold,1);}
+  if(s===1){txt(g,195,120,'60 Wh',C.text,22,'center',800);pill(g,200,40,'KAPAZITÄT: Wh ODER mAh',C.text,1);pill(g,200,208,'LAPTOP 50–100 Wh · HANDY ≈ 15–20 Wh',C.mute,1);}}
+ ,box:{was:'Der Lithium-Ionen-Akku speichert Energie chemisch. Seine Lebensdauer hängt stark davon ab, wie er geladen und wie warm er wird.',h2:'So schonst du ihn',
+ erkennen:['Möglichst zwischen 20 und 80 % halten','Nicht in der prallen Sonne oder im heißen Auto laden','Ladebegrenzung / optimiertes Laden einschalten','Akkuzustand: Handy-Einstellungen → Akku'],
+ bedeutung:'Ein geschonter Akku hält oft doppelt so lange. Das spart Geld – und den Austausch, der bei vielen Geräten teuer ist.',
+ tipp:'Schnellladen ist okay – die Geräte regeln das selbst. Schädlicher ist es, das Handy nachts stundenlang bei 100 % unter dem Kopfkissen zu laden (Hitze!).'}});
+
+function usbA(g,cx,cy,col,sc=1){box(g,cx-36*sc,cy-14*sc,72*sc,28*sc,C.block,col,3,2);box(g,cx-28*sc,cy-6*sc,56*sc,8*sc,col,null,1);}
+function usbC(g,cx,cy,col,sc=1){box(g,cx-30*sc,cy-10*sc,60*sc,20*sc,C.block,col,10*sc,2);box(g,cx-20*sc,cy-2.5*sc,40*sc,5*sc,col,null,2);}
+les({id:'anschluesse',cat:'geraete',title:'USB & Anschlüsse',sub:'Welcher Stecker kann was?',
+ steps:S([[5000,'USB-A ist der klassische flache, eckige Stecker. Er passt nur in einer Richtung – oft braucht man drei Versuche.'],
+ [5400,'USB-C ist klein, abgerundet und passt in beide Richtungen. Er ist der neue Standard und seit Ende 2024 in der EU Pflicht für neue Handys.'],
+ [5400,'Über USB-C können je nach Kabel Strom (bis 240 Watt), Daten und sogar ein Bildsignal fließen.'],
+ [5400,'Für Bildschirme gibt es HDMI (Fernseher, Monitore) und DisplayPort (vor allem PC-Monitore).'],
+ [5600,'Die Geschwindigkeit hängt von der Version ab: USB 2.0 schafft 480 MBit/s, USB4 bis zu 40 GBit/s und mehr.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===0){usbA(g,200,100,C.lime,1.6);const ok=Math.floor(t/900)%3===2;pill(g,200,170,ok?'✓ PASST':'✗ FALSCH HERUM',ok?C.up:C.down,1,'center',12);pill(g,200,222,'USB-A: NUR EINE RICHTUNG',C.text,1);return;}
+  if(s===1){g.save();g.translate(200,100);g.rotate(Math.sin(t*.003)>0?0:Math.PI);usbC(g,0,0,C.lime,1.8);g.restore();pill(g,200,170,'✓ PASST IMMER',C.up,1,'center',12);pill(g,200,222,'USB-C: BEIDE RICHTUNGEN · EU-STANDARD',C.text,1);return;}
+  if(s===2){usbC(g,70,125,C.lime,1.2);[['STROM ≤ 240 W',70,C.gold],['DATEN',125,C.blue],['BILD',180,C.purple]].forEach(([l,y,c],i)=>{const a=clamp(p*3-i*.4);line(g,110,125,230,y,hexA(c,.5),2);flow(g,[[110,125],[230,y]],t,c,{gap:12,speed:.05,r:2,a});pill(g,300,y,l,c,a);});return;}
+  if(s===3){poly(g,[[60,80],[180,80],[170,110],[70,110]],C.block,C.purple,2);box(g,76,90,88,8,C.purple,null,2);txt(g,120,140,'HDMI',C.purple,13,'center',800);tA(g,1,120,160,'Fernseher · Monitor',C.mute,9);
+   poly(g,[[230,80],[350,80],[350,100],[340,110],[230,110]],C.block,C.blue,2);box(g,244,90,92,8,C.blue,null,2);txt(g,290,140,'DISPLAYPORT',C.blue,13,'center',800);tA(g,1,290,160,'PC-Monitor · hohe Hz',C.mute,9);pill(g,200,214,'BILDSCHIRM-ANSCHLÜSSE',C.text,1);return;}
+  const B=[['USB 2.0','480 MBit/s',.48],['USB 3.2 Gen 1','5 GBit/s',5],['USB 3.2 Gen 2','10 GBit/s',10],['USB4','40 GBit/s',40]];
+  B.forEach(([n,v,x],i)=>{const y=50+i*42,w=Math.sqrt(x/40)*190*ease(clamp(p*1.5));txt(g,20,y,n,C.text,10,'left',700);box(g,130,y-9,Math.max(3,w),18,hexA(C.lime,.5),C.lime,4,1.2);txt(g,136+Math.max(3,w),y,v,C.lime,9.5,'left',700);});
+  pill(g,200,226,'GLEICHER STECKER – UNTERSCHIEDLICH SCHNELL',C.gold,1);}
+ ,box:{was:'Anschlüsse verbinden Geräte mit dem Computer. Der Stecker sagt aber nicht immer, was das Kabel kann – es kommt auf den Standard an.',h2:'So erkennst du sie',
+ erkennen:['<b>USB-A:</b> flach, eckig, eine Richtung','<b>USB-C:</b> klein, oval, beide Richtungen','<b>HDMI:</b> trapezförmig, für Fernseher','<b>DisplayPort:</b> eine Ecke abgeschrägt, für PC-Monitore'],
+ bedeutung:'Ein billiges USB-C-Kabel kann oft nur langsam laden und Daten mit USB-2.0-Tempo übertragen. Für Monitore oder schnelles Laden auf die Angaben achten.',
+ tipp:'Ein gutes USB-C-Kabel mit „240 W“ und „USB4/Thunderbolt“-Logo kann fast alles – für Laptop-Laden und Monitor zugleich.'}});
+
+les({id:'drucker',cat:'geraete',title:'Drucker',sub:'Tinte oder Laser?',
+ steps:S([[5000,'Ein Drucker bringt digitale Seiten aufs Papier – Punkt für Punkt, ähnlich wie Pixel auf dem Bildschirm.'],
+ [5400,'Der Tintenstrahldrucker spritzt winzige Tröpfchen in Cyan, Magenta, Gelb und Schwarz (CMYK) aufs Papier.'],
+ [5800,'Der Laserdrucker lädt eine Trommel elektrisch auf. Feines Tonerpulver bleibt an den Stellen hängen und wird mit Hitze aufs Papier geschmolzen.'],
+ [5400,'Beim Drucken mischt man Farben anders als am Bildschirm: Cyan, Magenta und Gelb übereinander ergeben fast Schwarz.'],
+ [5400,'Faustregel: Für Fotos ist Tinte gut, für viel Text ist ein Laser günstiger pro Seite – und Toner trocknet nicht ein.']]),
+ draw(g,st){const{s,p,t}=st;
+  const paper=(x,y,w,h)=>{box(g,x,y,w,h,'#f7f7f2',C.line2,2,1.2);};
+  if(s===0){paper(130,30,140,190);const A=["..XX..",".X..X.","X....X","XXXXXX","X....X","X....X"];const n=Math.floor(ease(p)*36);let k=0;
+   A.forEach((r,j)=>r.split('').forEach((c,i)=>{if(c==='X'&&k++<n)circ(g,164+i*14,70+j*16,5,'#1b1b1b');}));pill(g,200,232,'PUNKT FÜR PUNKT',C.text,1);return;}
+  if(s===1){paper(70,120,260,110);const hx=80+((t*.08)%240);box(g,hx-16,80,32,30,C.block,C.lime,4,1.6);
+   ['#00b7eb','#e5007d','#ffd400','#1b1b1b'].forEach((c,i)=>{for(let k=0;k<3;k++){const y=112+((t*.12+k*10+i*3)%14);circ(g,hx-9+i*6,y,1.6,c);}for(let x=80;x<hx-10;x+=7)circ(g,x+i*1.5,140+i*12+Math.sin(x)*3,2.4,c);});
+   pill(g,200,40,'TINTE: C · M · Y · K',C.lime,1);return;}
+  if(s===2){circ(g,170,100,40,hexA(C.lime,.12),C.lime,2);for(let k=0;k<20;k++){const a=t*.002+k*.31;circ(g,170+Math.cos(a)*40,100+Math.sin(a)*40,1.6,k%3?C.text:C.lime);}
+   circ(g,280,170,14,hexA(C.hot,.3),C.hot,1.6);circ(g,280,200,14,hexA(C.hot,.3),C.hot,1.6);box(g,40,180,330,8,'#f7f7f2',C.line2,1,1);
+   for(let x=60;x<60+((t*.05)%280);x+=9)circ(g,x,184,1.6,'#1b1b1b');pill(g,170,30,'TROMMEL + TONER',C.lime,1);pill(g,300,130,'HITZE',C.hot,1);return;}
+  if(s===3){box(g,190,40,180,170,'#ffffff',C.line2,8,1.2);g.save();g.globalCompositeOperation='multiply';[['#00b7eb',280,105],['#e5007d',256,145],['#ffd400',304,145]].forEach(([c,x,y])=>circ(g,x,y,40,c));g.restore();
+   txt(g,90,90,'BILDSCHIRM: RGB',C.text,10,'center',800);txt(g,90,108,'Licht addiert sich',C.mute,9,'center',600);txt(g,90,140,'DRUCK: CMY(K)',C.text,10,'center',800);txt(g,90,158,'Farbe schluckt Licht',C.mute,9,'center',600);pill(g,200,230,'C + M + Y ≈ SCHWARZ',C.text,1);return;}
+  box(g,30,50,160,140,C.block,C.lime,10,1.6);box(g,210,50,160,140,C.block,C.blue,10,1.6);txt(g,110,72,'TINTE',C.lime,12,'center',800);txt(g,290,72,'LASER',C.blue,12,'center',800);
+  ['Fotos ✓','Günstig in der Anschaffung','Tinte kann eintrocknen'].forEach((l,i)=>txt(g,110,104+i*24,l,C.text,9.5,'center',500,SANS));['Viel Text ✓','Günstig pro Seite','Toner trocknet nicht'].forEach((l,i)=>txt(g,290,104+i*24,l,C.text,9.5,'center',500,SANS));pill(g,200,222,'WAS DRUCKST DU AM MEISTEN?',C.gold,1);}
+ ,box:{was:'Drucker setzen ein Bild aus vielen kleinen Punkten zusammen. Die zwei wichtigsten Bauarten sind Tintenstrahl und Laser.',h2:'So erkennst du es',
+ erkennen:['<b>Tintenstrahl:</b> Patronen, Druckkopf fährt hin und her','<b>Laser:</b> Tonerkartusche, Trommel, Hitze','Auflösung in dpi (Punkte pro Zoll)','Farben: CMYK statt RGB'],
+ bedeutung:'Beim Kauf zählen die Kosten pro Seite mehr als der Gerätepreis. Ein billiger Drucker mit teuren Patronen wird auf Dauer teuer.',
+ tipp:'Wer nur selten druckt, ist mit einem Laserdrucker oft besser dran – der Toner trocknet auch nach Monaten nicht ein.'}});
+
+les({id:'pcbau',cat:'geraete',title:'PC selbst zusammenbauen',sub:'Schritt für Schritt zum eigenen PC',
+ steps:S([[5000,'Einen PC selbst zu bauen ist wie Lego für Erwachsene. Zuerst kommen CPU, Kühler und Arbeitsspeicher aufs Mainboard.'],
+ [5000,'Dann wird das Mainboard ins Gehäuse geschraubt und die M.2-SSD eingesteckt.'],
+ [5000,'Das Netzteil kommt unten ins Gehäuse. Seine Kabel versorgen Mainboard, CPU und Grafikkarte.'],
+ [5000,'Die Grafikkarte wird in den obersten PCIe-Steckplatz gesteckt und hinten festgeschraubt.'],
+ [5600,'Erster Start: Im UEFI prüfen, ob alles erkannt wird – dann Windows oder Linux vom USB-Stick installieren.']]),
+ draw(g,st){const{s,p,t}=st;
+  const a0=s===0?1:1;g.save();g.globalAlpha*=s===0?.3:1;box(g,40,18,300,208,C.block,C.line2,10,1.8);g.restore();
+  const by=s===0?lerp(60,40,0):40;box(g,150,by,170,140,hexA(C.up,.08),hexA(C.up,.6),4,1.4);
+  chipIC(g,200,by+22,40,40,C.orange,'CPU',1,4);circ(g,220,by+42,24,null,hexA(C.metal,.6),1.2);for(let i=0;i<2;i++)box(g,268+i*12,by+10,8,80,hexA(C.blue,.55),C.blue,2,1.2);
+  const a1=ap(st,1),a2=ap(st,2),a3=ap(st,3);
+  if(a1>0){g.save();g.globalAlpha*=a1;box(g,170,by+90,70,7,C.block,C.aqua,2,1.3);g.restore();}
+  if(a2>0){g.save();g.globalAlpha*=a2;box(g,50,180,100,40,C.metal3,C.metal,4,1.6);fan(g,100,200,14,t*.01,C.metal);g.strokeStyle=C.gold;g.lineWidth=2;g.beginPath();g.moveTo(140,186);g.bezierCurveTo(160,150,170,120,196,100);g.stroke();g.beginPath();g.moveTo(130,186);g.bezierCurveTo(150,170,250,190,300,166);g.stroke();g.restore();}
+  if(a3>0){g.save();g.globalAlpha*=a3;box(g,150,by+108,184,26,hexA(C.purple,.25),C.purple,4,1.6);fan(g,200,by+121,10,t*.01,C.purple);fan(g,270,by+121,10,t*.01,C.purple);g.restore();}
+  if(s===4){g.save();g.globalAlpha=.5+.5*Math.sin(t*.006);box(g,38,16,304,212,null,C.lime,12,2.5);g.restore();}
+  pill(g,200,240,['1 · CPU, KÜHLER & RAM','2 · MAINBOARD + SSD','3 · NETZTEIL & KABEL','4 · GRAFIKKARTE','5 · STARTEN: UEFI ✓'][s],s===4?C.up:C.lime,1);}
+ ,box:{was:'Ein PC besteht aus Standardteilen, die zusammengesteckt werden: Mainboard, CPU, Kühler, RAM, SSD, Grafikkarte, Netzteil und Gehäuse.',h2:'So geht’s',
+ erkennen:['CPU vorsichtig einsetzen – Pins nicht verbiegen!','RAM bis zum Klick eindrücken (Handbuch: welche Slots?)','Abstandshalter unter dem Mainboard nicht vergessen','Vor dem Arbeiten: Heizkörper anfassen (statische Ladung ableiten)'],
+ bedeutung:'Selbst bauen spart oft Geld, und du weißt genau, was drinsteckt. Vorher prüfen, ob alle Teile zusammenpassen (Sockel, RAM-Typ, Netzteilleistung).',
+ tipp:'Teile-Konfiguratoren im Internet prüfen automatisch, ob alles zusammenpasst. Und: Beim ersten Start ohne Seitenwand testen – dann siehst du, ob alle Lüfter drehen.'}});
+
+/* ================= PAKET 4: INTERNET & CLOUD ================= */
+function server(g,x,y,w,h,col,t){box(g,x,y,w,h,C.block,col,4,1.6);const n=Math.floor((h-8)/14);for(let i=0;i<n;i++){const yy=y+5+i*14;box(g,x+4,yy,w-8,10,C.head,null,2);circ(g,x+w-10,yy+5,1.8,Math.sin(t*.01+i*1.7+x)>0?C.up:hexA(C.up,.25));}}
+les({id:'webseite',cat:'cloud',title:'Was passiert beim Aufruf einer Webseite?',sub:'Von der Adresse bis zur fertigen Seite',
+ steps:S([[4800,'Du tippst kompassapps.de in den Browser und drückst Enter.'],
+ [5200,'Zuerst fragt der Browser beim DNS nach: Welche IP-Adresse gehört zu diesem Namen?'],
+ [5400,'Dann baut er eine verschlüsselte HTTPS-Verbindung zum Server auf – erkennbar am Schloss in der Adresszeile.'],
+ [5800,'Der Browser schickt eine Anfrage. Der Server antwortet mit Dateien: HTML für den Inhalt, CSS fürs Aussehen und JavaScript für die Funktionen.'],
+ [5200,'Der Browser setzt alles zusammen und zeichnet die Seite – meist in weniger als einer Sekunde.']]),
+ draw(g,st){const{s,p,t}=st;
+  box(g,14,50,160,150,C.block,C.sky,8,1.6);box(g,22,58,144,20,C.bg,C.line2,4,1);
+  const url='kompassapps.de';const typed=s===0?url.slice(0,Math.floor(ease(clamp(p*1.4))*url.length)):url;txt(g,s>=2?40:30,68,typed+(s===0&&Math.sin(t*.01)>0?'|':''),C.text,9,'left',600);if(s>=2)lock(g,30,70,5,C.up);
+  server(g,310,70,70,110,C.sky,t);tA(g,1,345,194,'SERVER',C.sky,9,'center',800);
+  if(s===1){box(g,200,16,90,34,C.block,C.gold,6,1.4);txt(g,245,33,'DNS',C.gold,11,'center',800);arrow(g,176,70,206,50,C.gold,1.6);pill(g,245,80,'185.199.108.153',C.gold,clamp(p*2-.5),'center',10);}
+  if(s===2){line(g,176,110,306,110,C.up,2);line(g,176,124,306,124,C.up,2);lock(g,241,118,10,C.up);pill(g,241,150,'HTTPS · VERSCHLÜSSELT',C.up,1);}
+  if(s===3){arrow(g,178,96,306,96,C.text,1.6);pill(g,242,84,'GET /',C.text,1,'center',10);[['HTML',C.orange],['CSS',C.blue],['JS',C.gold]].forEach(([l,c],i)=>{const f=clamp(p*1.6-i*.2);if(f<=0)return;const x=lerp(300,190,ease(f));box(g,x-18,120+i*26,36,20,hexA(c,.25),c,4,1.3);txt(g,x,130+i*26,l,c,9,'center',800);});}
+  if(s===4){const f=ease(clamp(p*1.4));[[22,86,144,18,C.lime],[22,110,90,40,C.purple],[118,110,48,40,C.orange],[22,156,144,10,C.line2],[22,172,120,10,C.line2]].forEach(([x,y,w,h,c],i)=>{if(f>i*.18)box(g,x,y,w,h,hexA(c,.4),null,3);});pill(g,240,222,'FERTIG IN < 1 SEKUNDE',C.up,1);}
+  if(s===0)pill(g,250,140,'ADRESSE EINTIPPEN + ENTER',C.text,1);}
+ ,box:{was:'Beim Aufruf einer Webseite arbeiten Browser, DNS und Server in wenigen Millisekunden zusammen.',h2:'So läuft es ab',
+ erkennen:['1. DNS: Name → IP-Adresse','2. HTTPS-Verbindung (verschlüsselt)','3. Anfrage an den Server','4. HTML + CSS + JavaScript → fertige Seite'],
+ bedeutung:'Das Schloss-Symbol zeigt nur, dass die Verbindung verschlüsselt ist – nicht, dass die Seite vertrauenswürdig ist. Auch Betrüger haben HTTPS.',
+ tipp:'Mit F12 öffnest du im PC-Browser die Entwicklerwerkzeuge. Unter „Netzwerk“ siehst du jede einzelne Datei, die eine Seite lädt.'}});
+
+les({id:'cloud',cat:'cloud',title:'Cloud & Rechenzentren',sub:'Der Computer von jemand anderem',
+ steps:S([[5000,'„Cloud“ heißt: Deine Daten und Programme liegen nicht auf deinem Gerät, sondern auf Computern im Internet.'],
+ [5200,'Diese Computer stehen in riesigen Rechenzentren – Hallen voller Server-Schränke.'],
+ [5400,'Deine Daten werden dort mehrfach gespeichert, oft in verschiedenen Rechenzentren. Fällt ein Server aus, übernimmt ein anderer.'],
+ [5400,'Rechenzentren brauchen viel Strom – vor allem für die Kühlung. Darum stehen viele dort, wo es kühl ist oder es viel Ökostrom gibt.'],
+ [5200,'Beispiele: Fotos in der Handy-Cloud, Dokumente in OneDrive – und auch Web-Apps wie diese laufen auf Servern.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===0||s===4){cloud(g,200,62,C.sky,'CLOUD');phone(g,70,150,36,64,C.text);laptop(g,170,160,70,52,C.text);box(g,300,156,60,54,C.block,C.text,6,1.6);
+   [[88,148],[205,158],[330,154]].forEach(([x,y])=>{arrow(g,x,y,200,92,hexA(C.sky,.7),1.4,1,true);flow(g,[[x,y],[200,94]],t,C.sky,{gap:14,speed:.04,r:1.8});});
+   if(s===4)[['FOTOS',40,40],['DOKUMENTE',350,40],['MAILS',40,100],['WEB-APPS',350,100]].forEach(([l,x,y],i)=>pill(g,x,y,l,C.sky,clamp(p*3-i*.3)));
+   else pill(g,200,236,'DEINE DATEN IM INTERNET',C.text,1);return;}
+  if(s===1){for(let i=0;i<5;i++)server(g,24+i*74,40,60,150,C.sky,t);pill(g,200,222,'RECHENZENTRUM: TAUSENDE SERVER',C.sky,1);return;}
+  if(s===2){[[20,'RECHENZENTRUM A'],[220,'RECHENZENTRUM B']].forEach(([x,l],k)=>{box(g,x,40,160,140,C.block,C.line2,8,1.4);server(g,x+14,60,60,100,C.sky,t);server(g,x+86,60,60,100,C.sky,t);tA(g,1,x+80,196,l,C.sky,9,'center',800);});
+   miniFile(g,104,110,C.text,hexA(C.gold,.6));miniFile(g,304,110,C.text,hexA(C.gold,.6));const f=(t*.0007)%1;circ(g,lerp(180,220,f),110,3,C.gold);pill(g,200,26,'KOPIEN AN MEHREREN ORTEN',C.gold,1);return;}
+  for(let i=0;i<4;i++)server(g,30+i*86,60,60,130,C.sky,t);g.save();g.strokeStyle=C.hot;g.lineWidth=2;for(let k=0;k<4;k++){g.beginPath();for(let y=56;y>=24;y--){const x=60+k*86+Math.sin((y+t*.05)/5)*4;y===56?g.moveTo(x,y):g.lineTo(x,y);}g.stroke();}g.restore();
+  flow(g,[[10,210],[390,210]],t,C.cold,{gap:12,speed:.06,r:2.4});pill(g,200,232,'KÜHLUNG BRAUCHT VIEL STROM',C.hot,1);}
+ ,box:{was:'Die Cloud sind Server in Rechenzentren, die du über das Internet nutzt – zum Speichern, Rechnen oder für Apps.',h2:'So erkennst du es',
+ erkennen:['Daten auf allen Geräten gleichzeitig verfügbar','Mehrfach gespeichert, an verschiedenen Orten','Bezahlt wird oft per Abo (Speicherplatz)','Funktioniert nur mit Internetverbindung'],
+ bedeutung:'Die Cloud ist bequem und sicher gegen Geräteverlust. Dafür vertraust du deine Daten einer Firma an – wichtige Daten trotzdem zusätzlich lokal sichern.',
+ tipp:'Bei Cloud-Anbietern mit Sitz und Servern in der EU gilt die DSGVO – das ist für viele ein Plus beim Datenschutz.'}});
+
+les({id:'leitung',cat:'cloud',title:'DSL, Kabel, Glasfaser & 5G',sub:'Wie das Internet ins Haus kommt',
+ steps:S([[5000,'DSL nutzt die alte Telefonleitung aus Kupfer. Je weiter der Verteilerkasten entfernt ist, desto langsamer wird es.'],
+ [5200,'Kabel-Internet läuft über das Fernsehkabel. Es ist schnell, aber man teilt sich die Leitung mit den Nachbarn.'],
+ [5600,'Glasfaser überträgt Daten mit Licht durch hauchdünne Glasfäden – sehr schnell und fast ohne Verluste über große Entfernungen.'],
+ [5200,'5G ist Mobilfunk: Funkmasten verbinden Handys – und auch Router zu Hause – kabellos mit dem Netz.'],
+ [5400,'Typische Geschwindigkeiten: DSL bis 250 MBit/s, Kabel bis 1.000 MBit/s, Glasfaser 1.000 MBit/s und mehr.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===4){[['DSL',250,C.orange],['KABEL',1000,C.purple],['GLASFASER',2500,C.sky],['5G',500,C.pink]].forEach(([n,v,c],i)=>{const y=50+i*42,w=v/2500*190*ease(clamp(p*1.5));txt(g,20,y,n,c,10,'left',800);box(g,110,y-9,Math.max(3,w),18,hexA(c,.5),c,4,1.2);txt(g,116+Math.max(3,w),y,(i===2?'≥ ':i===3?'≈ ':'bis ')+deN(v)+' MBit/s',c,9,'left',700);});pill(g,200,226,'MAX. DOWNLOAD-TEMPO (TYPISCH)',C.text,1);return;}
+  if(s===3){line(g,90,60,70,200,C.metal,3);line(g,90,60,110,200,C.metal,3);line(g,78,140,102,140,C.metal,2);circ(g,90,58,5,C.pink);
+   g.save();g.strokeStyle=C.pink;g.lineWidth=2;for(let k=0;k<4;k++){const r=(t*.06+k*40)%160;g.globalAlpha=1-r/160;g.beginPath();g.arc(90,58,r,-.6,.6);g.stroke();}g.restore();
+   phone(g,250,60,28,50,C.pink);house(g,300,140,70,60,C.pink);pill(g,90,226,'FUNKMAST',C.pink,1);pill(g,300,226,'HANDY + 5G-ROUTER',C.pink,1);return;}
+  const col=[C.orange,C.purple,C.sky][s];box(g,20,70,50,90,C.block,C.line2,4,1.4);tA(g,1,45,176,'VERTEILER',C.mute,8.5,'center',700);
+  if(s===1){[150,250,330].forEach((x,i)=>{house(g,x-24,140,48,50,C.line2);line(g,x,118,x,140,col,2.2);});line(g,70,118,330,118,col,5);flow(g,[[70,118],[330,118]],t,col,{gap:16,speed:.05,r:2.4});pill(g,200,40,'GETEILTE LEITUNG',col,1);return;}
+  house(g,300,90,70,80,C.line2);
+  if(s===0){line(g,70,120,300,120,col,4);for(let x=74;x<300;x+=10){const a=1-(x-74)/260*.8;circ(g,x+((t*.05)%10),120,2.4,hexA(col,a));}pill(g,190,60,'KUPFER: SIGNAL WIRD SCHWÄCHER',col,1);pill(g,190,200,'WEITER WEG = LANGSAMER',C.text,1);return;}
+  box(g,70,110,230,20,hexA(col,.1),col,10,1.6);g.save();g.strokeStyle=C.text;g.lineWidth=2;g.beginPath();for(let x=74;x<298;x++){const y=120+((Math.floor((x+t*.15)/12)%2)?-1:1)*(((x+t*.15)%12)/12*14-7);x===74?g.moveTo(x,y):g.lineTo(x,y);}g.stroke();g.restore();
+  pill(g,190,60,'GLASFASER: DATEN ALS LICHT',col,1);pill(g,190,200,'SEHR SCHNELL · KAUM VERLUSTE',C.up,1);}
+ ,box:{was:'Es gibt mehrere Wege, wie das Internet zu dir kommt: über Kupfer (DSL), Fernsehkabel, Glasfaser oder Funk (Mobilfunk/5G).',h2:'So erkennst du es',
+ erkennen:['<b>DSL:</b> Telefondose (TAE)','<b>Kabel:</b> Multimediadose (TV-Kabel)','<b>Glasfaser:</b> eigene Glasfaser-Dose + Modem (ONT)','<b>5G:</b> SIM-Karte im Handy oder Router'],
+ bedeutung:'Wichtig ist nicht nur der Download, sondern auch der Upload (z. B. für Videotelefonie und Cloud-Backups). Glasfaser ist da meist am stärksten.',
+ tipp:'Die tatsächliche Geschwindigkeit kannst du bei der Bundesnetzagentur messen: breitbandmessung.de – am besten per LAN-Kabel.'}});
+
+les({id:'streaming',cat:'cloud',title:'Streaming',sub:'Filme ohne Download',
+ steps:S([[5000,'Beim Streaming wird ein Film nicht erst komplett heruntergeladen, sondern in kleinen Stücken, während du schaust.'],
+ [5400,'Der Player hält einen Puffer: ein paar Sekunden Vorrat. Wird die Leitung kurz langsam, läuft der Film trotzdem weiter.'],
+ [5600,'Videos werden stark komprimiert: Statt jedes Bild komplett zu speichern, merkt man sich vor allem, was sich verändert.'],
+ [5400,'Die Qualität passt sich automatisch an: Bei schnellem Internet kommt 4K, bei langsamem eine niedrigere Auflösung.'],
+ [5200,'Grober Datenbedarf: HD etwa 3 GB pro Stunde, 4K etwa 7 GB pro Stunde.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===0){server(g,20,60,60,110,C.sky,t);monitor(g,250,50,130,90,C.sky);for(let i=0;i<6;i++){const f=((t*.0005)+i/6)%1;box(g,lerp(86,240,f)-8,100,16,12,hexA(C.sky,.6),C.sky,2,1);}pill(g,200,210,'KLEINE STÜCKE NACHEINANDER',C.sky,1);return;}
+  if(s===1){monitor(g,90,24,220,130,C.sky);ballView(g,96,30,208,118,30,t,C.purple);box(g,90,188,220,10,C.line,null,5);const pl=((t*.00004)%1)*.6;box(g,90,188,220*pl,10,C.down,null,5);box(g,90+220*pl,188,220*.22,10,hexA(C.text,.35),null,5);
+   pill(g,200,222,'ROT: GESEHEN · GRAU: PUFFER',C.text,1);return;}
+  if(s===2){for(let i=0;i<5;i++){const x=20+i*76;box(g,x,60,68,52,C.block,i===0?C.gold:C.line2,4,1.4);if(i===0){circ(g,x+20,86,10,C.purple);box(g,x+40,74,18,28,C.up,null,2);}else{box(g,x+12+i*4-4,76,24,22,null,C.purple,3,1.2);circ(g,x+12+i*4+8,87,8,hexA(C.purple,.6));}tA(g,1,x+34,126,i===0?'GANZES BILD':'NUR ÄNDERUNG',i===0?C.gold:C.mute,8,'center',700);}
+   pill(g,200,180,'KOMPRIMIERUNG: z. B. H.265, AV1',C.text,1);return;}
+  if(s===3){const bw=(Math.sin(t*.0012)+1)/2;g.save();g.strokeStyle=C.sky;g.lineWidth=2;g.beginPath();for(let x=30;x<=370;x++){const y=200-((Math.sin((x*6+t*.0012*1000/7.6)/180)+1)/2)*60;x===30?g.moveTo(x,y):g.lineTo(x,y);}g.stroke();g.restore();
+   const q=bw>.66?'4K':bw>.33?'FULL HD':'480p';['480p','FULL HD','4K'].forEach((l,i)=>pill(g,90+i*110,60,l,l===q?C.up:C.mute,1,'center',l===q?14:11));pill(g,200,110,'QUALITÄT FOLGT DER LEITUNG',C.text,1);txt(g,30,212,'INTERNET-TEMPO',C.mute,9,'left',700);return;}
+  [['HD',3,C.sky],['4K',7,C.purple]].forEach(([n,v,c],i)=>{const y=80+i*60,w=v/7*190*ease(clamp(p*1.5));txt(g,30,y,n,c,12,'left',800);box(g,80,y-12,w,24,hexA(c,.5),c,4,1.2);txt(g,86+w,y,`≈ ${v} GB / STUNDE`,c,10,'left',800);});pill(g,200,210,'WICHTIG BEI HANDY-DATENVOLUMEN',C.gold,1);}
+ ,box:{was:'Streaming überträgt Filme, Serien und Musik in kleinen Stücken, die sofort abgespielt werden – ohne die ganze Datei zu speichern.',h2:'So erkennst du es',
+ erkennen:['Puffer-Balken im Player (grau)','Bild wird kurz unscharf = Qualität wurde gesenkt','Kreisel = Puffer leer, Leitung zu langsam','Für 4K: mindestens ca. 15–25 MBit/s'],
+ bedeutung:'Streaming ist heute der größte Teil des gesamten Internetverkehrs. Moderne Kompression spart dabei riesige Datenmengen.',
+ tipp:'Unterwegs in der App die Qualität auf „Daten sparen“ stellen – sonst ist das Handy-Datenvolumen nach ein paar Folgen weg.'}});
+
+les({id:'email',cat:'cloud',title:'So funktioniert E-Mail',sub:'Vom Absenden bis ins Postfach',
+ steps:S([[5000,'Eine E-Mail-Adresse besteht aus Name und Anbieter: max@beispiel.de – das „@“ heißt „bei“.'],
+ [5200,'Beim Absenden schickt dein Mailprogramm die Nachricht an den Postausgangs-Server (SMTP) deines Anbieters.'],
+ [5400,'Dieser fragt per DNS, welcher Server für beispiel.de zuständig ist, und liefert die Mail dort ab.'],
+ [5200,'Dort liegt sie im Postfach, bis der Empfänger sie mit seinem Mailprogramm oder im Browser abholt (IMAP).'],
+ [5400,'Mit IMAP bleibt die Mail auf dem Server – darum siehst du dieselben Mails auf Handy und PC.']]),
+ draw(g,st){const{s,p,t}=st;
+  const env=(x,y)=>{box(g,x-14,y-10,28,20,'#fff7e0',C.gold,2,1.4);poly(g,[[x-14,y-10],[x,y+2],[x+14,y-10]],null,C.gold,1.2,false);};
+  if(s===0){pill(g,110,90,'max',C.blue,1,'center',16);txt(g,170,90,'@',C.gold,24,'center',800);pill(g,260,90,'beispiel.de',C.purple,1,'center',16);pill(g,110,140,'NAME',C.blue,1);pill(g,260,140,'ANBIETER',C.purple,1);pill(g,170,190,'„@“ = „BEI“',C.gold,1);return;}
+  laptop(g,14,110,70,50,C.blue);server(g,130,90,50,80,C.orange,t);server(g,240,90,50,80,C.purple,t);phone(g,340,70,30,54,C.up);box(g,334,150,46,36,C.block,C.up,4,1.6);
+  tA(g,1,49,176,'ABSENDER',C.blue,8,'center',800);tA(g,1,155,184,'SMTP',C.orange,8.5,'center',800);tA(g,1,265,184,'POSTFACH',C.purple,8.5,'center',800);tA(g,1,357,200,'EMPFÄNGER',C.up,8,'center',800);
+  const f=ease(clamp(p*1.3));
+  if(s===1)env(lerp(80,130,f),130);
+  if(s===2){cloud(g,210,36,C.gold,'DNS');arrow(g,160,88,196,56,C.gold,1.4);env(lerp(185,240,f),130);}
+  if(s===3){env(lerp(290,355,f),lerp(130,97,f));pill(g,200,226,'IMAP: ABHOLEN',C.up,1);}
+  if(s===4){env(355,97);env(357,168);arrow(g,292,120,338,100,C.up,1.4,1,true);arrow(g,292,140,332,166,C.up,1.4,1,true);pill(g,200,226,'GLEICHE MAILS AUF ALLEN GERÄTEN',C.up,1);}}
+ ,box:{was:'E-Mail ist eines der ältesten Internet-Dienste. Mails werden von Server zu Server weitergereicht und im Postfach des Empfängers gespeichert.',h2:'So funktioniert’s',
+ erkennen:['<b>SMTP:</b> zum Versenden','<b>IMAP:</b> zum Abholen, Mails bleiben auf dem Server','<b>POP3:</b> älter, lädt Mails herunter','Spam-Filter prüfen jede eingehende Mail'],
+ bedeutung:'Normale E-Mails sind wie Postkarten: Unterwegs könnten Server sie lesen. Für Geheimes besser verschlüsselte Messenger nutzen.',
+ tipp:'Für Anmeldungen in Shops und Newslettern eine zweite E-Mail-Adresse anlegen. So bleibt das Hauptpostfach frei von Werbung.'}});
+
+/* ================= PAKET 5: PROGRAMMIEREN & KI ================= */
+les({id:'variablen',cat:'code',title:'Variablen, Bedingungen & Schleifen',sub:'Die Grundbausteine jedes Programms',
+ steps:S([[5000,'Eine Variable ist wie eine beschriftete Schublade: Sie hat einen Namen und speichert einen Wert, z. B. punkte = 0.'],
+ [5400,'Eine Bedingung lässt das Programm entscheiden: Wenn punkte größer als 10 ist, dann „Gewonnen!“, sonst weiterspielen.'],
+ [5600,'Eine Schleife wiederholt etwas: „Mache 6-mal: punkte = punkte + 2“.'],
+ [5400,'Eine Funktion fasst Schritte zusammen und gibt ihnen einen Namen – so kann man sie immer wieder benutzen.'],
+ [5400,'Mit diesen vier Bausteinen sind fast alle Programme gebaut – vom Taschenrechner bis zum Videospiel.']]),
+ draw(g,st){const{s,p,t}=st;
+  const code=[['punkte = 0'],['wenn punkte > 10:','  zeige("Gewonnen!")'],['wiederhole 6-mal:','  punkte = punkte + 2'],['funktion doppelt(x):','  gib x * 2 zurück']][Math.min(s,3)];
+  if(s<4){box(g,14,40,180,120,C.block,C.line2,8,1.4);code.forEach((l,i)=>txt(g,26,64+i*22,l,i?C.text:C.gold,9.5,'left',600));}
+  if(s===0){box(g,250,70,110,70,C.head,C.gold,6,1.8);box(g,250,70,110,20,hexA(C.gold,.3),null,6);txt(g,305,80,'punkte',C.gold,10,'center',800);txt(g,305,116,'0',C.text,22,'center',800);pill(g,200,206,'VARIABLE = SCHUBLADE MIT NAMEN',C.gold,1);return;}
+  if(s===1){poly(g,[[300,60],[360,100],[300,140],[240,100]],hexA(C.gold,.15),C.gold,1.8);txt(g,300,100,'> 10 ?',C.gold,11,'center',800);arrow(g,300,142,300,170,C.up,1.6);arrow(g,362,100,388,100,C.down,1.6);pill(g,300,186,'JA: GEWONNEN!',C.up,1);pill(g,330,40,'NEIN: WEITER',C.down,1);pill(g,110,206,'BEDINGUNG: WENN … DANN …',C.gold,1);return;}
+  if(s===2){const k=Math.min(6,Math.floor(p*7));box(g,250,70,110,70,C.head,C.gold,6,1.8);box(g,250,70,110,20,hexA(C.gold,.3),null,6);txt(g,305,80,'punkte',C.gold,10,'center',800);txt(g,305,116,String(k*2),C.text,22,'center',800);
+   g.save();g.strokeStyle=C.purple;g.lineWidth=2;g.beginPath();g.arc(305,105,58,-.5+t*.004,2.2+t*.004);g.stroke();g.restore();pill(g,305,186,`DURCHLAUF ${Math.max(1,k)} / 6`,C.purple,1);pill(g,110,206,'SCHLEIFE: WIEDERHOLEN',C.gold,1);return;}
+  if(s===3){const x=rnd3(t);box(g,250,80,110,50,hexA(C.pink,.15),C.pink,8,1.8);txt(g,305,105,'doppelt( )',C.pink,11,'center',800);pill(g,214,105,String(x),C.text,1,'center',13);arrow(g,224,105,248,105,C.mute,1.4);arrow(g,362,105,382,105,C.mute,1.4);pill(g,388,105,String(x*2),C.up,1,'right',13);pill(g,110,206,'FUNKTION: EINMAL SCHREIBEN, OFT NUTZEN',C.gold,1);return;}
+  [['VARIABLE',C.gold],['BEDINGUNG',C.orange],['SCHLEIFE',C.purple],['FUNKTION',C.pink]].forEach(([l,c],i)=>{const a=clamp(p*3-i*.3);if(a<=0)return;g.save();g.globalAlpha*=a;box(g,30+(i%2)*180,50+Math.floor(i/2)*70,160,54,hexA(c,.15),c,10,1.8);txt(g,110+(i%2)*180,77+Math.floor(i/2)*70,l,c,13,'center',800);g.restore();});
+  pill(g,200,222,'4 BAUSTEINE – UNENDLICH VIELE PROGRAMME',C.text,1);}
+ ,box:{was:'Variablen, Bedingungen, Schleifen und Funktionen sind die Grundbausteine des Programmierens – in jeder Programmiersprache.',h2:'So erkennst du es',
+ erkennen:['<b>Variable:</b> punkte = 0','<b>Bedingung:</b> if … else (wenn … sonst)','<b>Schleife:</b> for / while (wiederhole)','<b>Funktion:</b> def / function (Name für Schritte)'],
+ bedeutung:'Wer diese vier Bausteine versteht, kann jede Programmiersprache schnell lernen – nur die Schreibweise ist etwas anders.',
+ tipp:'Zum Ausprobieren eignet sich Scratch (scratch.mit.edu) für Kinder und Python für Erwachsene – beides kostenlos.'}});
+function rnd3(t){return [3,5,7,12][Math.floor(t/1400)%4];}
+
+const BUB=(()=>{const a=[5,2,8,1,6,3,7,4],fr=[];for(let pass=0;pass<a.length-1;pass++){for(let i=0;i<a.length-1-pass;i++){const sw=a[i]>a[i+1];fr.push({a:a.slice(),i,sw,pass});if(sw){const x=a[i];a[i]=a[i+1];a[i+1]=x;}}}fr.push({a:a.slice(),i:-1,sw:false,pass:99});return fr;})();
+les({id:'algorithmus',cat:'code',title:'Algorithmen: Sortieren',sub:'Schritt für Schritt zur Lösung',
+ steps:S([[5000,'Ein Algorithmus ist eine genaue Schritt-für-Schritt-Anleitung – wie ein Kochrezept für den Computer.'],
+ [6000,'Beispiel Sortieren: Bubblesort vergleicht immer zwei Nachbarn und tauscht sie, wenn sie falsch herum stehen.'],
+ [8000,'Nach jedem Durchlauf „blubbert“ die größte Zahl ans Ende. Das wiederholt sich, bis alles sortiert ist.'],
+ [5600,'Bei vielen Daten ist Bubblesort sehr langsam. Schlauere Verfahren wie Quicksort teilen die Liste auf und sind viel schneller.'],
+ [5200,'Gute Algorithmen sind der Grund, warum eine Suche in Milliarden Webseiten nur Bruchteile einer Sekunde dauert.']]),
+ draw(g,st){const{s,p}=st;
+  const bars=(fr,done)=>{fr.a.forEach((v,i)=>{const x=40+i*42,h=v*20;const cmp=i===fr.i||i===fr.i+1;const sorted=done||i>=fr.a.length-fr.pass;const c=sorted?C.up:cmp?(fr.sw?C.down:C.gold):C.blue;box(g,x,190-h,32,h,hexA(c,.45),c,4,1.6);txt(g,x+16,202,String(v),c,11,'center',800);});};
+  if(s===0){['1. Zutaten nehmen','2. Teig rühren','3. 30 Min. backen'].forEach((l,i)=>{const a=clamp(p*3-i*.4);if(a>0)pill(g,200,60+i*40,l,C.gold,a,'center',12);});pill(g,200,200,'ALGORITHMUS = REZEPT',C.text,1);return;}
+  if(s===1||s===2){const n1=7;const idx=s===1?Math.min(n1-1,Math.floor(p*n1)):Math.min(BUB.length-1,n1+Math.floor(p*(BUB.length-n1)));const fr=BUB[idx];bars(fr,fr.pass===99);
+   pill(g,200,30,fr.pass===99?'FERTIG SORTIERT ✓':fr.sw?'FALSCH HERUM → TAUSCHEN':'RICHTIG → WEITER',fr.pass===99?C.up:fr.sw?C.down:C.gold,1);if(s===2&&fr.pass!==99)pill(g,200,232,`DURCHLAUF ${fr.pass+1}`,C.text,1);return;}
+  if(s===3){const x0=50,y0=200,w=320,h=160;line(g,x0,y0,x0+w,y0,C.axis,1.3);line(g,x0,y0,x0,y0-h,C.axis,1.3);
+   const f=ease(clamp(p*1.4));g.save();g.lineWidth=2.6;g.strokeStyle=C.down;g.beginPath();for(let i=0;i<=100*f;i++){const u=i/100;const y=y0-u*u*h;i?g.lineTo(x0+u*w,y):g.moveTo(x0,y0);}g.stroke();
+   g.strokeStyle=C.up;g.beginPath();for(let i=1;i<=100*f;i++){const u=i/100;const y=y0-(u*Math.log2(u*64+1)/6.02)*h*.35;i>1?g.lineTo(x0+u*w,y):g.moveTo(x0+u*w,y);}g.stroke();g.restore();
+   txt(g,x0+w,y0+12,'ANZAHL DATEN',C.mute,9,'right',700);txt(g,x0+2,y0-h-8,'RECHENSCHRITTE',C.mute,9,'left',700);pill(g,250,70,'BUBBLESORT',C.down,f);pill(g,300,170,'QUICKSORT',C.up,f);return;}
+  bars(BUB[BUB.length-1],true);pill(g,200,30,'MILLIARDEN DATEN IN BRUCHTEILEN EINER SEKUNDE',C.up,1);}
+ ,box:{was:'Ein Algorithmus ist eine eindeutige Abfolge von Schritten, die ein Problem löst – zum Beispiel eine Liste sortieren oder den kürzesten Weg finden.',h2:'So erkennst du es',
+ erkennen:['<b>Bubblesort:</b> Nachbarn vergleichen und tauschen','<b>Quicksort:</b> teilen und herrschen – viel schneller','<b>Suche:</b> im Telefonbuch in der Mitte aufschlagen (binäre Suche)','<b>Navi:</b> kürzester Weg (Dijkstra)'],
+ bedeutung:'Bei 1.000 Zahlen braucht Bubblesort rund 500.000 Vergleiche, Quicksort nur etwa 10.000. Bei Milliarden Daten entscheidet der Algorithmus über Sekunden oder Jahre.',
+ tipp:'Du benutzt Algorithmen selbst: Beim Sortieren von Spielkarten in der Hand machst du ziemlich genau „Insertion Sort“.'}});
+
+les({id:'datenbank',cat:'code',title:'Datenbanken',sub:'Ordnung für riesige Datenmengen',
+ steps:S([[5000,'Eine Datenbank speichert Daten geordnet in Tabellen – wie eine riesige Excel-Tabelle.'],
+ [5200,'Jede Zeile ist ein Datensatz (z. B. ein Kunde), jede Spalte eine Eigenschaft (Name, Ort, Geburtsjahr).'],
+ [5600,'Mit einer Abfrage holst du genau das, was du brauchst – z. B. alle Kunden aus Landshut. Die Sprache dafür heißt SQL.'],
+ [5400,'Ein Index funktioniert wie das Stichwortverzeichnis in einem Buch: Die Datenbank findet Einträge, ohne alles durchzulesen.'],
+ [5200,'Fast jede App nutzt eine Datenbank: Online-Shops, Banken, soziale Netzwerke – und auch deine Einkaufsliste.']]),
+ draw(g,st){const{s,p}=st;
+  const R=[[1,'Anna','Landshut',1985],[2,'Ben','Ergoldsbach',1992],[3,'Clara','Landshut',1978],[4,'Deniz','Regensburg',2001],[5,'Emil','Landshut',1969],[6,'Frieda','Essenbach',1995]];
+  const cx=[44,96,190,300],hd=['ID','NAME','ORT','JAHR'];const y0=s===2?70:44;
+  if(s===4){[['ONLINE-SHOP',C.orange],['BANK',C.blue],['SOZIALES NETZ',C.pink],['EINKAUFSLISTE',C.up]].forEach(([l,c],i)=>pill(g,110+(i%2)*180,70+Math.floor(i/2)*60,l,c,clamp(p*3-i*.3),'center',12));
+   g.save();g.strokeStyle=C.gold;g.lineWidth=2;for(let k=0;k<3;k++){g.beginPath();g.ellipse(200,190-k*16,50,10,0,0,TAU);g.stroke();}g.restore();pill(g,200,232,'FAST JEDE APP HAT EINE DATENBANK',C.text,1);return;}
+  box(g,30,y0-14,340,24+R.length*22,C.block,C.line2,6,1.2);hd.forEach((h,i)=>txt(g,cx[i],y0,h,C.gold,9.5,'left',800));line(g,30,y0+10,370,y0+10,C.line2,1);
+  R.forEach((r,j)=>{const y=y0+24+j*22;const hit=s===2&&r[2]==='Landshut'&&p>.3;const rowHL=s===1&&j===2;if(hit||rowHL)box(g,32,y-10,336,20,hexA(hit?C.up:C.blue,.2),null,3);r.forEach((v,i)=>txt(g,cx[i],y,String(v),i===2&&s===1?C.purple:C.text,10,'left',i===1?700:500,SANS));});
+  if(s===1){box(g,184,y0-12,100,R.length*22+22,null,C.purple,4,1.6);pill(g,330,24,'SPALTE = EIGENSCHAFT',C.purple,1);pill(g,110,24,'ZEILE = DATENSATZ',C.blue,1);}
+  if(s===2)pill(g,200,26,"SELECT * FROM kunden WHERE ort = 'Landshut'",C.up,1,'center',10);
+  if(s===3){box(g,236,12,156,30,C.block,C.gold,4,1.2);txt(g,314,27,'INDEX: Landshut → 1, 3, 5',C.gold,8,'center',700);[0,2,4].forEach(j=>arrow(g,250,40,180,y0+24+j*22,hexA(C.gold,.6),1.2,clamp(p*2)));}
+  if(s===0)pill(g,200,222,'TABELLE: ZEILEN & SPALTEN',C.text,1);}
+ ,box:{was:'Eine Datenbank ist ein System, das große Datenmengen sicher speichert, ordnet und blitzschnell durchsuchbar macht.',h2:'So erkennst du es',
+ erkennen:['Tabellen mit Zeilen (Datensätze) und Spalten (Felder)','<b>SQL:</b> SELECT, INSERT, UPDATE, DELETE','<b>Index:</b> beschleunigt die Suche','Bekannt: MySQL, PostgreSQL, SQLite'],
+ bedeutung:'Ohne Datenbanken gäbe es keine Online-Shops, kein Online-Banking und keine sozialen Netzwerke – sie sind das Gedächtnis fast jeder App.',
+ tipp:'Excel ist super für kleine Listen. Wenn mehrere Leute gleichzeitig mit vielen Tausend Einträgen arbeiten, ist eine echte Datenbank die bessere Wahl.'}});
+
+les({id:'kilernen',cat:'code',title:'Wie eine KI lernt',sub:'Aus Beispielen statt aus Regeln',
+ steps:S([[5200,'Normale Programme folgen festen Regeln, die ein Mensch geschrieben hat. Eine KI lernt ihre Regeln selbst – aus Beispielen.'],
+ [5400,'Ein neuronales Netz besteht aus vielen Schichten künstlicher „Neuronen“, die über gewichtete Verbindungen Zahlen weitergeben.'],
+ [6000,'Beim Training bekommt das Netz z. B. tausende Bilder mit der Lösung („Katze“ oder „Hund“). Liegt es falsch, werden die Gewichte ein kleines Stück angepasst.'],
+ [5400,'Nach Millionen solcher Korrekturen erkennt es auch Bilder, die es noch nie gesehen hat.'],
+ [5800,'Sprach-KIs wie Claude lernen ähnlich – nur mit riesigen Textmengen. Im Kern sagen sie immer das nächste passende Wort voraus.']]),
+ draw(g,st){const{s,p,t}=st;
+  if(s===0){box(g,20,50,160,110,C.block,C.blue,10,1.6);txt(g,100,72,'PROGRAMM',C.blue,11,'center',800);['wenn Ohren spitz','und Schnurrhaare','→ Katze'].forEach((l,i)=>txt(g,100,98+i*18,l,C.text,9.5,'center',500,SANS));
+   box(g,220,50,160,110,C.block,C.gold,10,1.6);txt(g,300,72,'KI',C.gold,11,'center',800);for(let i=0;i<6;i++){const x=246+(i%3)*36,y=96+Math.floor(i/3)*30;box(g,x-12,y-10,24,20,hexA(C.gold,.2),C.gold,3,1);txt(g,x,y+1,i%2?'H':'K',C.gold,9);}
+   pill(g,100,186,'REGELN VOM MENSCHEN',C.blue,1);pill(g,300,186,'LERNT AUS BEISPIELEN',C.gold,1);return;}
+  if(s===4){const words=['Die','Katze','sitzt','auf','dem'];words.forEach((w,i)=>pill(g,40+i*62,60,w,C.text,1,'center',12));pill(g,350,60,'…?',C.gold,1,'center',12);
+   [['Sofa',.42],['Dach',.31],['Tisch',.18],['Mond',.01]].forEach(([w,v],i)=>{const y=110+i*28;txt(g,120,y,w,i===0?C.up:C.text,11,'right',700,SANS);box(g,130,y-8,220*v/.42*ease(clamp(p*1.6)),16,hexA(i===0?C.up:C.blue,.5),null,4);txt(g,136+220*v/.42*ease(clamp(p*1.6)),y,deN(v*100)+' %',C.mute,9,'left',700);});
+   pill(g,200,232,'NÄCHSTES WORT VORHERSAGEN',C.gold,1);return;}
+  const L=[[60,[70,125,180]],[160,[50,100,150,200]],[250,[50,100,150,200]],[340,[95,155]]];
+  L.forEach(([x,ys],li)=>{if(li===L.length-1)return;const nx=L[li+1];ys.forEach((y,i)=>nx[1].forEach((y2,j)=>{const w=Math.sin(i*3.1+j*1.7+li*2+(s===2?t*.004:0));g.save();g.globalAlpha=.25+.5*Math.abs(w);line(g,x,y,nx[0],y2,w>0?C.gold:C.blue,1+Math.abs(w)*1.6);g.restore();}));});
+  L.forEach(([x,ys],li)=>ys.forEach((y,i)=>{let fill=C.block;if(li===3){const right=s===3||(s===2&&p>.7);const lit=i===0?(right?1:.3):(right?.15:.8);fill=hexA(i===0?C.up:C.down,lit);}circ(g,x,y,12,fill,li===0?C.text:li===3?(i===0?C.up:C.down):C.gold,1.6);}));
+  tA(g,1,60,210,'EINGABE: BILD',C.text,8.5,'center',700);tA(g,1,205,236,'VERSTECKTE SCHICHTEN',C.gold,8.5,'center',700);txt(g,370,95,'K',C.up,10,'left',800);txt(g,370,155,'H',C.down,10,'left',800);
+  if(s>=2)flow(g,[[60,125],[160,100],[250,150],[340,95]],t,C.text,{gap:20,speed:.08,r:2});
+  if(s===1)pill(g,200,22,'NEURONEN + GEWICHTETE VERBINDUNGEN',C.text,1);
+  if(s===2)pill(g,200,22,p<.7?'FALSCH: „HUND“ → GEWICHTE ANPASSEN':'BESSER: „KATZE“ ✓',p<.7?C.down:C.up,1);
+  if(s===3)pill(g,200,22,'TRAINIERT: 98 % RICHTIG',C.up,1);}
+ ,box:{was:'Maschinelles Lernen heißt: Ein Programm verbessert sich selbst anhand von Beispielen, statt dass ein Mensch jede Regel vorgibt.',h2:'So funktioniert’s',
+ erkennen:['<b>Neuronales Netz:</b> Schichten aus künstlichen Neuronen','<b>Gewichte:</b> Milliarden Zahlen, die beim Training angepasst werden','<b>Training:</b> Fehler messen → Gewichte korrigieren','<b>GPU:</b> rechnet das Training parallel'],
+ bedeutung:'Eine KI ist nur so gut wie ihre Trainingsdaten. Sie kann sich irren und klingt dabei trotzdem überzeugt – wichtige Antworten daher immer prüfen.',
+ tipp:'Mehr dazu in der Bayazit KI-Schule: Dort siehst du Schritt für Schritt, wie ein Sprachmodell Wort für Wort Texte erzeugt.'}});
 
 /* ============ Reihenfolge nach Bereichen ============ */
 {const ord=Object.keys(CATS);LESSONS.sort((a,b)=>ord.indexOf(a.cat)-ord.indexOf(b.cat));}
@@ -823,13 +1279,21 @@ const CATINFO={
  bits:{d:'Binärsystem, KB/MB/GB, Logikgatter, Text und Bilder als Zahlen.',acc:'var(--up)',hex:'#1fcf8f'},
  grafik:{d:'Grafikkarte, Bilder pro Sekunde, Hertz und Auflösung.',acc:'var(--purple)',hex:'#b388ff'},
  software:{d:'Einschalten, Betriebssystem, Programme, Dateien und Ordner.',acc:'var(--pink)',hex:'#ff6fae'},
- netz:{d:'IP-Adressen, Datenpakete, Router und WLAN.',acc:'var(--aqua)',hex:'#22d3ee'}};
+ netz:{d:'IP-Adressen, Datenpakete, Router und WLAN.',acc:'var(--aqua)',hex:'#22d3ee'},
+ sicherheit:{d:'Viren, Phishing, Passwörter, Backup, Verschlüsselung und Updates.',acc:'var(--down)',hex:'#f0605d'},
+ geraete:{d:'PC, Laptop & Handy, Akku, USB-Anschlüsse, Drucker und PC-Selbstbau.',acc:'var(--lime)',hex:'#a3e635'},
+ cloud:{d:'Webseiten-Aufruf, Cloud, DSL & Glasfaser, Streaming und E-Mail.',acc:'var(--sky)',hex:'#38bdf8'},
+ code:{d:'Variablen & Schleifen, Algorithmen, Datenbanken und wie eine KI lernt.',acc:'var(--gold)',hex:'#f5c542'}};
 const SVGI={
  grundlagen:'<rect x="20" y="6" width="24" height="52" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="17" r="4" fill="currentColor"/><g stroke="currentColor" stroke-width="3"><line x1="26" y1="30" x2="38" y2="30"/><line x1="26" y1="38" x2="38" y2="38"/><line x1="26" y1="46" x2="38" y2="46"/></g>',
  cpu:'<rect x="16" y="16" width="32" height="32" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="25" y="25" width="14" height="14" rx="2" fill="currentColor"/><g stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="24" y1="6" x2="24" y2="14"/><line x1="32" y1="6" x2="32" y2="14"/><line x1="40" y1="6" x2="40" y2="14"/><line x1="24" y1="50" x2="24" y2="58"/><line x1="32" y1="50" x2="32" y2="58"/><line x1="40" y1="50" x2="40" y2="58"/><line x1="6" y1="24" x2="14" y2="24"/><line x1="6" y1="32" x2="14" y2="32"/><line x1="6" y1="40" x2="14" y2="40"/><line x1="50" y1="24" x2="58" y2="24"/><line x1="50" y1="32" x2="58" y2="32"/><line x1="50" y1="40" x2="58" y2="40"/></g>',
  bits:'<rect x="6" y="12" width="52" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><text x="32" y="41" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="22" font-weight="800" text-anchor="middle" fill="currentColor">01</text>',
  grafik:'<rect x="6" y="10" width="52" height="34" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M14 36 L26 24 L34 30 L44 18 L50 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><line x1="32" y1="44" x2="32" y2="52" stroke="currentColor" stroke-width="3"/><line x1="20" y1="54" x2="44" y2="54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>',
  software:'<rect x="6" y="10" width="52" height="44" rx="5" fill="none" stroke="currentColor" stroke-width="3"/><line x1="6" y1="21" x2="58" y2="21" stroke="currentColor" stroke-width="3"/><path d="M24 30 L16 38 L24 46 M40 30 L48 38 L40 46" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+ sicherheit:'<path d="M32 4 L54 12 V30 C54 46 44 56 32 60 C20 56 10 46 10 30 V12 Z" fill="none" stroke="currentColor" stroke-width="3"/><rect x="22" y="30" width="20" height="16" rx="3" fill="currentColor"/><path d="M26 30 V24 a6 6 0 0 1 12 0 V30" fill="none" stroke="currentColor" stroke-width="3"/>',
+ geraete:'<rect x="8" y="12" width="36" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="3"/><path d="M4 44 H48 L44 50 H8 Z" fill="currentColor" opacity=".8"/><rect x="44" y="20" width="16" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="3"/><line x1="50" y1="45" x2="54" y2="45" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+ cloud:'<path d="M18 46 A10 10 0 0 1 18 26 A14 14 0 0 1 44 22 A11 11 0 0 1 46 46 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M32 52 V34 M25 41 L32 34 L39 41" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+ code:'<path d="M22 18 L8 32 L22 46 M42 18 L56 32 L42 46" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><line x1="36" y1="12" x2="28" y2="52" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>',
  netz:'<circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="32" cy="32" rx="10" ry="24" fill="none" stroke="currentColor" stroke-width="3"/><line x1="8" y1="32" x2="56" y2="32" stroke="currentColor" stroke-width="3"/><path d="M12 20 H52 M12 44 H52" stroke="currentColor" stroke-width="2.4" fill="none"/>'};
 const catIcon=(ck,s=58)=>`<svg width="${s}" height="${s}" viewBox="0 0 64 64" style="color:${CATINFO[ck].acc}">${SVGI[ck]}</svg>`;
 
@@ -897,7 +1361,7 @@ function showHome(){
   return `<button class="big" data-h="kat-${ck}" style="--acc:${ci.acc};--glow:${hexA(ci.hex,.16)}"><div class="bi">${catIcon(ck)}</div><h2>${CATS[ck]}</h2><p>${ci.d}</p><div class="ft"><span>${n} LEKTIONEN</span><div class="pb"><i style="width:${sn/n*100}%"></i></div><span>${sn}/${n}</span><span class="go">›</span></div></button>`;}).join('');
  const quiz=`<button class="big" data-h="quiz" style="--acc:var(--gold);--glow:rgba(245,197,66,.14)"><div class="bi" style="font-size:46px;line-height:1">🎯</div><h2>Quiz</h2><p>Teste dein Wissen: 10 zufällige Fragen mit Bildern und Rechenaufgaben.</p><div class="ft"><span>${best?`BESTWERT ${best}/10`:'NOCH NICHT GESPIELT'}</span><span style="flex:1"></span><span class="go">›</span></div></button>`;
  view.innerHTML=`<div class="home"><div class="kicker">Willkommen</div><h1>So funktioniert ein Computer</h1>
- <p class="lead">Jede Lektion ist ein kleines Video: Prozessor, Speicher, Bits & Bytes, Grafik, Software und Internet bauen sich Schritt für Schritt auf und werden erklärt.</p>
+ <p class="lead">Jede Lektion ist ein kleines Video: Prozessor, Speicher, Bits & Bytes, Grafik, Software, Internet, Sicherheit und Programmieren bauen sich Schritt für Schritt auf und werden erklärt.</p>
  <div class="bigtiles">${tiles}${quiz}</div></div>`;
  view.querySelectorAll('.big').forEach(t=>t.onclick=()=>location.hash=t.dataset.h);
  renderList();window.scrollTo(0,0);
@@ -964,7 +1428,37 @@ const TQ=[
  {q:'Warum werden Daten im Internet in Pakete zerlegt?',a:['Damit sie flexibel über viele Wege reisen können','Damit sie schöner aussehen','Weil Kabel nur kleine Dinge schaffen','Damit sie verschwinden'],e:'Fällt ein Weg aus, nehmen die Pakete einfach einen anderen.',l:'pakete'},
  {q:'Was macht TCP, wenn ein Paket fehlt?',a:['Es fordert das Paket neu an','Es ignoriert es','Es löscht alle Pakete','Es schaltet den Router ab'],e:'Dank der Nummern merkt der Empfänger, was fehlt.',l:'pakete'},
  {q:'Welches WLAN-Band hat die größere Reichweite?',a:['2,4 GHz','5 GHz','Beide gleich','Keins von beiden'],e:'2,4 GHz kommt besser durch Wände, ist aber langsamer.',l:'wlan'},
- {q:'Wo steht ein WLAN-Router am besten?',a:['Frei, erhöht und zentral in der Wohnung','Im Keller hinter dem Heizkessel','In einem Metallschrank','Unter dem Sofa'],e:'Hindernisse und Metall schwächen das Funksignal.',l:'wlan'}
+ {q:'Wo steht ein WLAN-Router am besten?',a:['Frei, erhöht und zentral in der Wohnung','Im Keller hinter dem Heizkessel','In einem Metallschrank','Unter dem Sofa'],e:'Hindernisse und Metall schwächen das Funksignal.',l:'wlan'},
+ {q:'Was macht Ransomware?',a:['Sie verschlüsselt deine Dateien und verlangt Lösegeld','Sie beschleunigt den PC','Sie macht Backups','Sie blockiert Werbung'],e:'Darum sind Backups so wichtig – damit du nicht zahlen musst.',l:'viren'},
+ {q:'Wie tarnt sich ein Trojaner?',a:['Als nützliches Programm','Als Grafikkarte','Als WLAN-Router','Gar nicht'],e:'Wie das Holzpferd von Troja: außen harmlos, innen gefährlich.',l:'viren'},
+ {q:'Woran erkennst du eine Phishing-Mail oft?',a:['Zeitdruck und falsche Absenderadresse','Am schönen Logo','An der richtigen Anrede','An einer kurzen Betreffzeile'],e:'Drohungen wie „Konto wird gesperrt“ und seltsame Absender sind typisch.',l:'phishing'},
+ {q:'Was tust du bei einer verdächtigen Bank-Mail?',a:['Die Bank-Seite selbst eintippen oder anrufen','Auf den Link klicken und prüfen','Die PIN zurückschreiben','Die Mail weiterleiten an Freunde'],e:'Nie über Links aus solchen Mails anmelden.',l:'phishing'},
+ {q:'Welches Passwort ist am sichersten?',a:['Tasse-Wolke-Fahrrad-Kompass','P@ss1','Hallo123','12345678'],e:'Länge schlägt Kompliziertheit – vier zufällige Wörter sind sehr stark.',l:'passwort'},
+ {q:'Was bedeutet 2FA?',a:['Zusätzlich zum Passwort ein Code vom Handy','Zwei Passwörter für ein Konto','Zwei Bildschirme','Zwei Festplatten'],e:'Ohne dein Handy nützt ein gestohlenes Passwort kaum etwas.',l:'passwort'},
+ {q:'Was besagt die 3-2-1-Regel beim Backup?',a:['3 Kopien, 2 Medien, 1 außer Haus','3 Festplatten, 2 PCs, 1 Cloud','3 Tage, 2 Wochen, 1 Monat','3 Passwörter, 2 Konten, 1 Handy'],e:'So überleben deine Daten auch Defekt, Diebstahl und Brand.',l:'backup'},
+ {q:'Caesar-Code mit +3: Was wird aus „ABC“?',a:['DEF','BCD','XYZ','ABC'],e:'A+3 = D, B+3 = E, C+3 = F.',l:'verschluesselung'},
+ {q:'Wer kann eine mit deinem öffentlichen Schlüssel verschlossene Nachricht öffnen?',a:['Nur du mit deinem privaten Schlüssel','Jeder','Nur der Absender','Niemand mehr'],e:'Das öffentliche „Schloss“ darf jeder haben, den Schlüssel nur du.',l:'verschluesselung'},
+ {q:'Warum sind Updates wichtig?',a:['Sie schließen Sicherheitslücken','Sie machen den Bildschirm heller','Sie löschen Viren automatisch immer','Sie sind nur für neue Funktionen'],e:'Viele Angriffe nutzen Lücken, für die es längst ein Update gibt.',l:'updates'},
+ {q:'Was ist ein SoC?',a:['Ein Chip, auf dem fast alles sitzt: CPU, Grafik, Funk','Eine Art Kabel','Ein Betriebssystem','Ein Speicherstick'],e:'System on a Chip – typisch für Handys und Tablets.',l:'geraetetypen'},
+ {q:'In welchem Ladebereich hält ein Lithium-Ionen-Akku am längsten?',a:['20–80 %','0–100 % immer voll ausnutzen','Immer genau 100 %','Unter 10 %'],e:'Dauerhaft 100 % und Hitze lassen ihn schneller altern.',l:'laptopakku'},
+ {q:'Welcher Stecker passt in beide Richtungen?',a:['USB-C','USB-A','HDMI','DisplayPort'],e:'USB-C ist symmetrisch – und seit Ende 2024 EU-Standard für Handys.',l:'anschluesse'},
+ {q:'Welche Farben nutzt ein Tintenstrahldrucker?',a:['Cyan, Magenta, Gelb und Schwarz','Rot, Grün und Blau','Nur Schwarz und Weiß','Gold und Silber'],e:'CMYK – Druckfarben mischen sich subtraktiv.',l:'drucker'},
+ {q:'Was macht ein Laserdrucker mit dem Toner?',a:['Er schmilzt ihn mit Hitze aufs Papier','Er spritzt ihn als Tröpfchen','Er klebt ihn mit Leim','Er brennt ihn mit Licht ins Papier'],e:'Die Fixiereinheit ist heiß – darum kommt das Papier warm heraus.',l:'drucker'},
+ {q:'Was zeigt das Schloss in der Adresszeile?',a:['Die Verbindung ist verschlüsselt (HTTPS)','Die Seite ist garantiert seriös','Die Seite ist kostenlos','Die Seite hat keine Werbung'],e:'Auch Betrüger können HTTPS nutzen – das Schloss heißt nur „verschlüsselt“.',l:'webseite'},
+ {q:'Wofür ist CSS auf einer Webseite zuständig?',a:['Für das Aussehen','Für den Inhalt','Für die Verschlüsselung','Für die IP-Adresse'],e:'HTML = Inhalt, CSS = Aussehen, JavaScript = Funktionen.',l:'webseite'},
+ {q:'Wo liegen Daten in der „Cloud“ wirklich?',a:['Auf Servern in Rechenzentren','In den Wolken','Nur auf deinem Handy','Im Router'],e:'Die Cloud ist im Grunde „der Computer von jemand anderem“.',l:'cloud'},
+ {q:'Womit überträgt Glasfaser Daten?',a:['Mit Licht','Mit Strom in Kupfer','Mit Funk','Mit Schall'],e:'Lichtpulse in hauchdünnen Glasfäden – sehr schnell und verlustarm.',l:'leitung'},
+ {q:'Wozu dient der Puffer beim Streaming?',a:['Ein paar Sekunden Vorrat gegen kurze Aussetzer','Er speichert den ganzen Film','Er macht das Bild heller','Er spart Strom'],e:'Wird die Leitung kurz langsam, läuft das Video trotzdem weiter.',l:'streaming'},
+ {q:'Ungefähr wie viele Daten verbraucht 1 Stunde 4K-Streaming?',a:['ca. 7 GB','ca. 7 MB','ca. 70 GB','ca. 700 KB'],e:'HD braucht etwa 3 GB, 4K etwa 7 GB pro Stunde.',l:'streaming'},
+ {q:'Was bedeutet das „@“ in einer E-Mail-Adresse?',a:['„bei“ – Name bei Anbieter','„und“','„an“ den Server','Gar nichts'],e:'max@beispiel.de heißt: Max beim Anbieter beispiel.de.',l:'email'},
+ {q:'Warum siehst du mit IMAP dieselben Mails auf Handy und PC?',a:['Die Mails bleiben auf dem Server','Das Handy kopiert sie zum PC','Der Router speichert sie','Die Cloud löscht sie'],e:'Alle Geräte schauen in dasselbe Postfach auf dem Server.',l:'email'},
+ {q:'Was ist eine Schleife beim Programmieren?',a:['Etwas wird mehrmals wiederholt','Ein Fehler im Programm','Eine Variable','Ein Kabel'],e:'z. B. „wiederhole 6-mal: punkte = punkte + 2“.',l:'variablen'},
+ {q:'punkte = 0, dann 6-mal „punkte = punkte + 2“. Wie viele Punkte?',a:['12','6','8','2'],e:'6 × 2 = 12.',l:'variablen'},
+ {q:'Was ist ein Algorithmus?',a:['Eine genaue Schritt-für-Schritt-Anleitung','Ein Computervirus','Ein Teil der Grafikkarte','Ein Speichermedium'],e:'Wie ein Kochrezept – nur für den Computer.',l:'algorithmus'},
+ {q:'Was macht Bubblesort?',a:['Vergleicht Nachbarn und tauscht sie bei Bedarf','Teilt die Liste in zwei Hälften','Löscht doppelte Werte','Sortiert zufällig'],e:'Die größte Zahl „blubbert“ in jedem Durchlauf ans Ende.',l:'algorithmus'},
+ {q:'Wie heißt die Abfragesprache für Datenbanken?',a:['SQL','HTML','CSS','USB'],e:'z. B. SELECT * FROM kunden WHERE ort = &#39;Landshut&#39;',l:'datenbank'},
+ {q:'Wie lernt ein neuronales Netz?',a:['Es passt seine Gewichte nach Fehlern an','Ein Mensch schreibt jede Regel','Es kopiert das Internet','Gar nicht'],e:'Millionen kleine Korrekturen machen es immer besser.',l:'kilernen'},
+ {q:'Was macht eine Sprach-KI im Kern?',a:['Sie sagt das nächste passende Wort voraus','Sie sucht Antworten im Telefonbuch','Sie rechnet nur mit Bildern','Sie würfelt Buchstaben'],e:'Wort für Wort entsteht so ein ganzer Text.',l:'kilernen'}
 ];
 /* Bilderfragen: Lektion, Schritt, Fortschritt */
 const PQ=[
@@ -979,7 +1473,13 @@ const PQ=[
  {l:'pixel',s:2,p:.5,q:'Welche Farbe entsteht in der Mitte, wo sich Rot, Grün und Blau überlagern?',a:['Weiß','Schwarz','Braun','Grau'],e:'Licht mischt sich additiv – alle drei zusammen ergeben Weiß.'},
  {l:'aufloesung',s:3,p:.5,q:'Was ist hier stark vergrößert zu sehen?',a:['Subpixel eines Bildschirms','Transistoren','Speicherzellen','Datenpakete'],e:'Jedes Pixel besteht aus einem roten, grünen und blauen Subpixel.'},
  {l:'wlan',s:2,p:.5,q:'Warum hat das rechte Gerät schlechteren Empfang?',a:['Eine Wand schwächt das Funksignal','Es ist zu nah am Router','Es hat keine IP-Adresse','Der Router ist aus'],e:'Wände und Decken dämpfen die Funkwellen.'},
- {l:'booten',s:2,p:.9,q:'Welcher Schritt beim Starten läuft hier gerade?',a:['Der Selbsttest (POST)','Das Herunterfahren','Ein Update','Das Drucken'],e:'Das UEFI prüft RAM, Grafik und SSD.'}
+ {l:'booten',s:2,p:.9,q:'Welcher Schritt beim Starten läuft hier gerade?',a:['Der Selbsttest (POST)','Das Herunterfahren','Ein Update','Das Drucken'],e:'Das UEFI prüft RAM, Grafik und SSD.'},
+ {l:'phishing',s:2,p:.6,q:'Was ist an dieser E-Mail verdächtig?',a:['Der Absender ist nicht die echte Bank','Die Schriftart','Die Farbe des Knopfes','Gar nichts'],e:'„meine-bank-sicherheit.com“ ist nicht die Adresse der Bank – typisch Phishing.'},
+ {l:'anschluesse',s:1,p:.3,q:'Welcher Stecker ist das?',a:['USB-C','USB-A','HDMI','Netzstecker'],e:'Klein, abgerundet, passt in beide Richtungen.'},
+ {l:'algorithmus',s:2,p:.3,q:'Was passiert hier gerade?',a:['Zahlen werden sortiert','Daten werden verschlüsselt','Ein Bild wird gedruckt','Ein Akku wird geladen'],e:'Bubblesort vergleicht Nachbarn und tauscht sie.'},
+ {l:'kilernen',s:3,p:.5,q:'Was ist hier zu sehen?',a:['Ein neuronales Netz','Ein Stromnetz','Ein Rechenzentrum','Ein Mainboard'],e:'Schichten aus Neuronen mit gewichteten Verbindungen.'},
+ {l:'drucker',s:3,p:.5,q:'Welche Farbe entsteht beim Drucken, wo sich Cyan, Magenta und Gelb überlagern?',a:['Fast Schwarz','Weiß','Hellgrün','Rosa'],e:'Druckfarben schlucken Licht – zusammen wird es fast schwarz.'},
+ {l:'updates',s:0,p:.5,q:'Wofür steht das offene Fenster in dieser Lektion?',a:['Eine Sicherheitslücke','Frische Luft für den PC','Ein neues Programm','Das WLAN'],e:'Ein Update schließt die Lücke – das Fenster geht zu.'}
 ];
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
